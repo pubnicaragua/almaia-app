@@ -1,9 +1,11 @@
 "use client"
+import { StatusBar } from "expo-status-bar"
 import { useRef, useEffect } from "react"
-import { StyleSheet, View, Text, TouchableOpacity, Modal, Animated, Image, Easing, StatusBar } from "react-native"
+import { StyleSheet, View, Text, TouchableOpacity, Modal, Animated, Easing } from "react-native"
 import { Ionicons } from "@expo/vector-icons"
 import { SvgXml } from "react-native-svg"
-import { almialertsvg, almisossvg } from "@/indexsvfg"
+import { almialertsvg, almisossvg, backgroundHomesvg } from "@/indexsvfg"
+
 
 interface SOSModalProps {
   visible: boolean
@@ -52,9 +54,10 @@ const SOSModal = ({ visible, onClose, onRequestHelp, onReport }: SOSModalProps) 
   return (
     <Modal visible={visible} transparent animationType="none">
       <StatusBar
-        backgroundColor="white"
-        barStyle="dark-content"
+        backgroundColor="black"
+        style="light"
       />
+
       <View style={styles.modalContainer}>
         <Animated.View
           style={[
@@ -66,9 +69,14 @@ const SOSModal = ({ visible, onClose, onRequestHelp, onReport }: SOSModalProps) 
           ]}
         >
           <View style={styles.header}>
+            <View style={{ flexDirection: "row" }}>
+              <Text style={{ fontSize: 24, fontWeight: "900", color: "white" }}>SOS</Text>
+              <Text style={{ fontSize: 24, color: "white" }}> Alma</Text>
+            </View>
             <TouchableOpacity style={styles.closeButton} onPress={onClose}>
               <Ionicons name="close" size={20} color="black" />
             </TouchableOpacity>
+            <SvgXml xml={backgroundHomesvg} style={styles.fixedBackground} />
           </View>
 
           <View style={styles.optionsContainer}>
@@ -106,6 +114,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
+  fixedBackground: {
+    transform: [{ scaleY: .4 }],
+    position: 'absolute',
+    top: -100,
+    left: 0,
+    right: 0,
+    zIndex: -1,
+  },
   modalContent: {
     width: "100%",
     height: "100%",
@@ -141,15 +157,15 @@ const styles = StyleSheet.create({
   },
   optionsContainer: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
     paddingHorizontal: 20,
-    paddingTop: 50,
+    paddingTop: 90,
+    gap: 30
   },
   helpOption: {
     backgroundColor: "#FF4757",
     borderRadius: 15,
-    // padding: 20,
     paddingLeft: 20,
     paddingVertical: 20,
     flexDirection: "row",

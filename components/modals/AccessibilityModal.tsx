@@ -4,7 +4,7 @@ import { StyleSheet, View, Text, TouchableOpacity, Modal, Animated, ScrollView }
 import { StatusBar } from "expo-status-bar"
 import { Ionicons } from "@expo/vector-icons"
 import { SvgXml } from "react-native-svg"
-import { almiesoon, almietalkback } from "@/indexsvfg"
+import { almiesoon, almietalkback, backgroundHomesvg } from "@/indexsvfg"
 
 interface AccessibilityModalProps {
   visible: boolean
@@ -47,10 +47,8 @@ const AccessibilityModal = ({ visible, onClose }: AccessibilityModalProps) => {
 
   return (
     <Modal visible={visible} transparent animationType="none">
-      <StatusBar backgroundColor="white" />
+      <StatusBar backgroundColor="black" />
       <ScrollView>
-
-
         <View style={styles.modalContainer}>
           <Animated.View
             style={[
@@ -63,13 +61,14 @@ const AccessibilityModal = ({ visible, onClose }: AccessibilityModalProps) => {
           >
 
             <View style={styles.header}>
+              <SvgXml xml={backgroundHomesvg} style={styles.fixedBackground} />
               <Text style={styles.title}>Accesibilidad</Text>
               <TouchableOpacity style={styles.closeButton} onPress={onClose}>
                 <Ionicons name="close" size={24} color="black" />
               </TouchableOpacity>
             </View>
 
-            <View style={styles.content}>
+            <View style={[styles.content, { marginTop: 50 }]}>
               <View style={styles.section}>
                 <Text style={styles.sectionTitle}>Daltonismo</Text>
                 <View style={styles.colorBoxesContainer}>
@@ -83,27 +82,29 @@ const AccessibilityModal = ({ visible, onClose }: AccessibilityModalProps) => {
                 <Text style={styles.sectionTitle}>Talkback</Text>
                 <View style={styles.talkbackContainer}>
                   <View style={styles.talkbackContent}>
-                    <SvgXml xml={almietalkback} />
-                    <View style={styles.mascotContainer}>
+                    <SvgXml xml={almietalkback} style={styles.almietalk} />
+                    <View style={{ flexDirection: "column" }}>
+                      <View style={styles.talkbackTextContainer}>
+                        <Text style={styles.talkbackQuestion}>¿Deseas activar el</Text>
+                        <Text style={styles.talkbackHighlight}>pulsar</Text>
+                        <Text style={styles.talkbackQuestion}>para escuchar?</Text>
+                      </View>
+                      <View style={styles.talkbackButtonsContainer}>
+                        <TouchableOpacity style={styles.talkbackButtonYes}>
+                          <Text style={styles.talkbackButtonYesText}>Si</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.talkbackButtonNo}>
+                          <Text style={styles.talkbackButtonNoText}>No</Text>
+                        </TouchableOpacity>
+                      </View>
                     </View>
-                    <View style={styles.talkbackTextContainer}>
-                      <Text style={styles.talkbackQuestion}>¿Deseas activar el</Text>
-                      <Text style={styles.talkbackHighlight}>pulsar</Text>
-                      <Text style={styles.talkbackQuestion}>para escuchar?</Text>
-                    </View>
+
                   </View>
-                  <View style={styles.talkbackButtonsContainer}>
-                    <TouchableOpacity style={styles.talkbackButtonYes}>
-                      <Text style={styles.talkbackButtonYesText}>Si</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.talkbackButtonNo}>
-                      <Text style={styles.talkbackButtonNoText}>No</Text>
-                    </TouchableOpacity>
-                  </View>
+
                 </View>
               </View>
 
-              <View style={styles.section}>
+              <View style={[styles.section, { marginBottom: 50 }]}>
                 <Text style={styles.sectionTitle}>Próximamente</Text>
                 <View style={styles.comingSoonContainer}>
                   <Text style={styles.comingSoonText}>Más funciones próximamente</Text>
@@ -126,24 +127,33 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
+    justifyContent: "flex-start",
     width: "100%",
     height: "100%",
     backgroundColor: "white",
     overflow: "hidden",
   },
+  fixedBackground: {
+    transform: [{ scaleY: .4 }],
+    position: 'absolute',
+    top: -100,
+    left: 0,
+    right: 0,
+    zIndex: -1,
+  },
   header: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    paddingTop: 50,
     paddingBottom: 20,
     position: "relative",
     zIndex: 1,
   },
   title: {
+    color: "white",
+    paddingTop: 20,
     fontSize: 28,
     fontWeight: "bold",
-    color: "white",
   },
   closeButton: {
     position: "absolute",
@@ -163,6 +173,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   section: {
+    position: "relative",
     marginBottom: 30,
   },
   sectionTitle: {
@@ -188,15 +199,13 @@ const styles = StyleSheet.create({
   },
   talkbackContent: {
     flexDirection: "row",
-    alignItems: "center",
+    // alignItems: "flex-end",
+    justifyContent: "flex-end",
     marginBottom: 10,
-  },
-  mascotContainer: {
-    position: "relative",
-    marginRight: 10,
   },
   talkbackTextContainer: {
     flex: 1,
+    marginLeft: 30
   },
   talkbackQuestion: {
     color: "white",
@@ -252,6 +261,12 @@ const styles = StyleSheet.create({
     transform: [
       { scale: 1.2 }
     ]
+  },
+  almietalk: {
+    position: "absolute",
+    left: 0,
+    bottom: -5,
+    transform: [{ scale: 1.5 }]
   }
 })
 

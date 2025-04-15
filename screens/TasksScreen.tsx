@@ -1,6 +1,6 @@
 "use client"
 import { useState } from "react"
-import { StyleSheet, ScrollView } from "react-native"
+import { StyleSheet, ScrollView,TouchableOpacity } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import Header from "components/home/Header"
 import MascotMessage from "../components/tasks/MascotMessage"
@@ -114,7 +114,7 @@ const TasksScreen = () => {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <Header />
-        {/* <TasksHeader title="Hoy" onSOSPress={handleSOSPress} onAccessibilityPress={handleAccessibilityPress} /> */}
+        <TouchableOpacity onPress={()=>setAddTaskModalVisible(true)} style={{height:20,width:20,backgroundColor:"black"}}></TouchableOpacity>
         <MascotMessage message="¡Escoge para agregar en tu rutina de tareas!" points={500} />
         <TaskTabs activeTab={activeTab} onTabChange={setActiveTab} />
 

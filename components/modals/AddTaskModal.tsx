@@ -1,17 +1,21 @@
 "use client"
-
-import { useState, useRef, useEffect } from "react"
+import { useState, useEffect } from "react"
 import {
   StyleSheet,
-  View,
   Text,
   TouchableOpacity,
   Modal,
   TextInput,
   ScrollView,
-  Animated,
   Dimensions,
+  View
 } from "react-native"
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+} from "react-native-reanimated"
 import { Ionicons } from "@expo/vector-icons"
 
 interface AddTaskModalProps {
@@ -35,36 +39,37 @@ const AddTaskModal = ({ visible, onClose, onAddTask }: AddTaskModalProps) => {
   const [dueDate, setDueDate] = useState("30 de marzo")
   const [dueTime, setDueTime] = useState("11:55 am")
 
-  const fadeAnim = useRef(new Animated.Value(0)).current
-  const slideAnim = useRef(new Animated.Value(Dimensions.get("window").height)).current
+  // Animaciones con Reanimated v2+
+  const fadeAnim = useSharedValue(0)
+  const slideAnim = useSharedValue(Dimensions.get("window").height)
+
+  const overlayStyle = useAnimatedStyle(() => ({
+    opacity: fadeAnim.value
+  }))
+
+  const contentStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: slideAnim.value }]
+  }))
 
   useEffect(() => {
     if (visible) {
-      Animated.parallel([
-        Animated.timing(fadeAnim, {
-          toValue: 1,
-          duration: 300,
-          useNativeDriver: false,
-        }),
-        Animated.timing(slideAnim, {
-          toValue: 0,
-          duration: 300,
-          useNativeDriver: false,
-        }),
-      ]).start()
+      fadeAnim.value = withTiming(1, {
+        duration: 300,
+        easing: Easing.inOut(Easing.quad)
+      })
+      slideAnim.value = withTiming(0, {
+        duration: 300,
+        easing: Easing.inOut(Easing.quad)
+      })
     } else {
-      Animated.parallel([
-        Animated.timing(fadeAnim, {
-          toValue: 0,
-          duration: 200,
-          useNativeDriver: false,
-        }),
-        Animated.timing(slideAnim, {
-          toValue: Dimensions.get("window").height,
-          duration: 200,
-          useNativeDriver: false,
-        }),
-      ]).start()
+      fadeAnim.value = withTiming(0, {
+        duration: 200,
+        easing: Easing.inOut(Easing.quad)
+      })
+      slideAnim.value = withTiming(Dimensions.get("window").height, {
+        duration: 200,
+        easing: Easing.inOut(Easing.quad)
+      })
     }
   }, [visible])
 
@@ -91,17 +96,14 @@ const AddTaskModal = ({ visible, onClose, onAddTask }: AddTaskModalProps) => {
         type: taskType,
       })
 
-      // Reset form
       setSubject("")
       setSelectedColor("#2196F3")
       setTaskType("Tarea")
       setDescription("")
-
       onClose()
     }
   }
 
-  // Datos de asignaturas
   const subjects = [
     { id: 1, name: "MATEMATICAS" },
     { id: 2, name: "FISICA" },
@@ -111,32 +113,22 @@ const AddTaskModal = ({ visible, onClose, onAddTask }: AddTaskModalProps) => {
     { id: 6, name: "HISTORIA" },
   ]
 
-  // Colores disponibles
   const colors = [
-    { id: 1, value: "#2196F3" }, // Azul
-    { id: 2, value: "#FFC107" }, // Amarillo
-    { id: 3, value: "#4CAF50" }, // Verde
-    { id: 4, value: "#673AB7" }, // Morado
-    { id: 5, value: "#E1BEE7" }, // Rosa claro
-    { id: 6, value: "#F44336" }, // Rojo
+    { id: 1, value: "#2196F3" },
+    { id: 2, value: "#FFC107" },
+    { id: 3, value: "#4CAF50" },
+    { id: 4, value: "#673AB7" },
+    { id: 5, value: "#E1BEE7" },
+    { id: 6, value: "#F44336" },
   ]
 
-  // Fecha y hora actuales (en una app real, usaríamos Date)
   const currentDate = "25 mar. 2025"
   const currentTime = "14:55 pm"
 
   return (
     <Modal visible={visible} transparent animationType="none">
-      <View style={styles.modalOverlay}>
-        <Animated.View
-          style={[
-            styles.modalContent,
-            {
-              opacity: fadeAnim,
-              transform: [{ translateY: slideAnim }],
-            },
-          ]}
-        >
+      <Animated.View style={[styles.modalOverlay, overlayStyle]}>
+        <Animated.View style={[styles.modalContent, contentStyle]}>
           <ScrollView contentContainerStyle={styles.scrollContent}>
             <View style={styles.header}>
               <View style={styles.dateTimeContainer}>
@@ -231,7 +223,7 @@ const AddTaskModal = ({ visible, onClose, onAddTask }: AddTaskModalProps) => {
             </TouchableOpacity>
           </ScrollView>
         </Animated.View>
-      </View>
+      </Animated.View>
     </Modal>
   )
 }

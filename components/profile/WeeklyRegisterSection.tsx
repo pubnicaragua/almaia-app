@@ -15,8 +15,8 @@ const WeeklyRegisterSection = ({ currentStreak, bestStreak }: WeeklyRegisterSect
     { id: 3, name: "Mar", completed: false },
     { id: 4, name: "Mie", completed: false },
     { id: 5, name: "Jue", completed: false },
-    { id: 6, name: "Ayer", completed: false },
-    { id: 7, name: "Hoy", completed: true },
+    { id: 6, name: "Ayer", completed: true },
+    { id: 7, name: "Hoy", completed: false },
   ]
 
   return (
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   completedDay: {
-    backgroundColor: "white",
+    backgroundColor: colors.primaryBlueStrong,
   },
   dayText: {
     color: "white",

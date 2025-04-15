@@ -1,25 +1,17 @@
 "use client"
-import { StyleSheet, View, ScrollView, ImageBackground } from "react-native"
+import { StyleSheet, View, ScrollView } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { useState } from "react"
-import { SvgXml } from "react-native-svg"
 import ProfileHeader from "../components/profile/ProfileHeader"
 import PersonalInfoSection from "../components/profile/PersonalInfoSection"
 import WeeklyRegisterSection from "../components/profile/WeeklyRegisterSection"
 import AchievementsSection from "../components/profile/AchievementsSection"
 import SOSModal from "../components/modals/SOSModal"
-import { backgroundHomesvg } from "@/indexsvfg"
+import AccessibilityModal from "components/modals/AccessibilityModal"
 
 const ProfileScreen = () => {
   const [sosModalVisible, setSOSModalVisible] = useState(false)
-
-  const handleSOSPress = () => {
-    setSOSModalVisible(true)
-  }
-
-  const handleCloseSOSModal = () => {
-    setSOSModalVisible(false)
-  }
+  const [accessibilityModalVisible, setAccessibilityModalVisible] = useState(false)
 
   const handleRequestHelp = () => {
     // Aquí iría la lógica para solicitar ayuda
@@ -49,9 +41,8 @@ const ProfileScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <SvgXml xml={backgroundHomesvg}     width="100%" style={[styles.fixedBackground]}/>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <ProfileHeader name="Paolo Fernandez" profileImage={userData.profileImage} onSOSPress={handleSOSPress} />
+        <ProfileHeader name="Paolo Fernandez" profileImage={userData.profileImage} onSOSPress={() => setSOSModalVisible(true)} onAccesPress={() => setAccessibilityModalVisible(true)} />
 
         <View style={styles.content}>
           <PersonalInfoSection
@@ -74,10 +65,11 @@ const ProfileScreen = () => {
 
       <SOSModal
         visible={sosModalVisible}
-        onClose={handleCloseSOSModal}
+        onClose={() => setSOSModalVisible(false)}
         onRequestHelp={handleRequestHelp}
         onReport={handleReport}
       />
+      <AccessibilityModal visible={accessibilityModalVisible} onClose={() => setAccessibilityModalVisible(false)} />
     </SafeAreaView>
   )
 }
@@ -87,13 +79,6 @@ const styles = StyleSheet.create({
     flex: 1,
     position: "relative",
     backgroundColor: "white"
-  },
-  fixedBackground: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    zIndex: -1, 
   },
   scrollContent: {
     flexGrow: 1,

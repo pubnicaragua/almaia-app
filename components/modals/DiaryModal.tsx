@@ -10,9 +10,9 @@ import {
   ScrollView,
   Animated,
   TouchableWithoutFeedback,
+  Image
 } from "react-native"
 import { Ionicons } from "@expo/vector-icons"
-import Image from "react-native-fast-image"
 
 interface DiaryModalProps {
   visible: boolean

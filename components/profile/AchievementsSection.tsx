@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Image, ScrollView } from "react-native"
+import { StyleSheet, View, Text, ScrollView } from "react-native"
 import { SvgXml } from "react-native-svg"
 import { cupsvg } from "@/indexsvfg"
 import colors from "../../constants/colors"
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
   achievementCard: {
     display:"flex",
-    backgroundColor: colors.primaryBlueLow,
+    backgroundColor: colors.primaryBlueMiddles,
     borderRadius: 10,
     padding: 15,
     alignItems: "center",
