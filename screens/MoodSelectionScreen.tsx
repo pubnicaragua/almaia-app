@@ -22,29 +22,13 @@ const MoodSelectionScreen = () => {
 
   const handleContinue = () => {
     if (selectedMood !== null) {
-<<<<<<< HEAD
-      // Animar la salida de la pantalla hacia la izquierda
-      Animated.timing(slideAnim, {
-        toValue: -300,
-        duration: 300,
-        useNativeDriver: true,
-      }).start(() => {
-        // Navegar a la pantalla de detalle de emoción
-        navigation.navigate("EmotionDetail", { selectedMood })
-      })
-=======
       // Navegar directamente sin animación personalizada
       navigation.navigate("EmotionDetail", { selectedMood })
->>>>>>> c93316b (Update App AlmaIA)
     }
   }
 
   return (
-<<<<<<< HEAD
-    <Animated.View style={[styles.container, { transform: [{ translateX: slideAnim }] }]}>
-=======
     <View style={styles.container}>
->>>>>>> c93316b (Update App AlmaIA)
       <SafeAreaView style={styles.safeArea}>
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <View style={styles.header}>
@@ -64,11 +48,7 @@ const MoodSelectionScreen = () => {
           <ContinueButton onPress={handleContinue} disabled={selectedMood === null} />
         </View>
       </SafeAreaView>
-<<<<<<< HEAD
-    </Animated.View>
-=======
     </View>
->>>>>>> c93316b (Update App AlmaIA)
   )
 }
 
@@ -89,11 +69,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 20,
     paddingVertical: 10,
-<<<<<<< HEAD
-    marginTop:30
-=======
     marginTop: 30,
->>>>>>> c93316b (Update App AlmaIA)
   },
   content: {
     flex: 1,

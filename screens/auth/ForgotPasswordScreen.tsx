@@ -1,19 +1,7 @@
 "use client"
 
 import { useState } from "react"
-<<<<<<< HEAD
-import {
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  ScrollView,
-  Alert,
-} from "react-native"
-=======
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, ScrollView, Alert } from "react-native"
->>>>>>> c93316b (Update App AlmaIA)
 import { useNavigation } from "@react-navigation/native"
 import { SvgXml } from "react-native-svg"
 import { almiehappysvg } from "@/indexsvfg"
@@ -51,10 +39,6 @@ const ForgotPasswordScreen = () => {
 
   return (
     <View style={styles.container}>
-<<<<<<< HEAD
-
-=======
->>>>>>> c93316b (Update App AlmaIA)
       <View style={styles.header}>
         <BackButton onPress={handleBack} />
       </View>
@@ -62,11 +46,7 @@ const ForgotPasswordScreen = () => {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.mascotContainer}>
           <MessageBubble message="¿Olvidaste tu contraseña? ¡No te preocupes!" />
-<<<<<<< HEAD
-          <SvgXml xml={almiehappysvg}/>
-=======
           <SvgXml xml={almiehappysvg} />
->>>>>>> c93316b (Update App AlmaIA)
         </View>
 
         <View style={styles.formContainer}>

@@ -17,10 +17,6 @@ const TaskRegistrationScreen = () => {
   }
 
   const handleContinue = () => {
-<<<<<<< HEAD
-   
-=======
->>>>>>> c93316b (Update App AlmaIA)
     navigation.navigate("MoodSelection")
   }
 

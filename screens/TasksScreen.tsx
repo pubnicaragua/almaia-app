@@ -1,15 +1,4 @@
 "use client"
-<<<<<<< HEAD
-import { useState } from "react"
-import { StyleSheet, ScrollView,TouchableOpacity } from "react-native"
-import { SafeAreaView } from "react-native-safe-area-context"
-import Header from "components/home/Header"
-import MascotMessage from "../components/tasks/MascotMessage"
-import TaskTabs from "../components/tasks/TaskTabs"
-import TaskList from "../components/tasks/TaskList"
-import SOSModal from "../components/modals/SOSModal"
-import AddTaskModal from "../components/modals/AddTaskModal"
-=======
 import { useState, useEffect } from "react"
 import { StyleSheet, ScrollView, TouchableOpacity, View, Text } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
@@ -20,7 +9,6 @@ import TaskList from "../src/components/tasks/TaskList"
 import SOSModal from "../src/components/modals/SOSModal"
 import AddTaskModal from "../src/components/modals/AddTaskModal"
 import { Ionicons } from "@expo/vector-icons"
->>>>>>> c93316b (Update App AlmaIA)
 
 const TasksScreen = () => {
   const [activeTab, setActiveTab] = useState("Tareas")
@@ -61,8 +49,6 @@ const TasksScreen = () => {
     },
   ])
 
-<<<<<<< HEAD
-=======
   // Añadir un efecto para registrar cuando se monta el componente
   useEffect(() => {
     console.log("TasksScreen mounted")
@@ -71,7 +57,6 @@ const TasksScreen = () => {
     }
   }, [])
 
->>>>>>> c93316b (Update App AlmaIA)
   const handleSOSPress = () => {
     setSOSModalVisible(true)
   }
@@ -138,15 +123,6 @@ const TasksScreen = () => {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <Header />
-<<<<<<< HEAD
-        <TouchableOpacity onPress={()=>setAddTaskModalVisible(true)} style={{height:20,width:20,backgroundColor:"black"}}></TouchableOpacity>
-        <MascotMessage message="¡Escoge para agregar en tu rutina de tareas!" points={500} />
-        <TaskTabs activeTab={activeTab} onTabChange={setActiveTab} />
-
-        {tasks.map((taskGroup) => (
-          <TaskList key={taskGroup.id} month={taskGroup.month} tasks={taskGroup.items} />
-        ))}
-=======
         <MascotMessage message="¡Escoge para agregar en tu rutina de tareas!" points={500} />
         <TaskTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
@@ -159,7 +135,6 @@ const TasksScreen = () => {
             <Text style={styles.emptyText}>No hay tareas disponibles</Text>
           </View>
         )}
->>>>>>> c93316b (Update App AlmaIA)
       </ScrollView>
 
       <SOSModal
@@ -174,12 +149,9 @@ const TasksScreen = () => {
         onClose={() => setAddTaskModalVisible(false)}
         onAddTask={handleAddTask}
       />
-<<<<<<< HEAD
-=======
       <TouchableOpacity style={styles.addButton} onPress={() => setAddTaskModalVisible(true)}>
         <Ionicons name="add" size={30} color="white" />
       </TouchableOpacity>
->>>>>>> c93316b (Update App AlmaIA)
     </SafeAreaView>
   )
 }
@@ -193,8 +165,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     paddingBottom: 20,
   },
-<<<<<<< HEAD
-=======
   addButton: {
     position: "absolute",
     bottom: 20,
@@ -222,7 +192,6 @@ const styles = StyleSheet.create({
     color: "#666",
     fontSize: 14,
   },
->>>>>>> c93316b (Update App AlmaIA)
 })
 
 export default TasksScreen

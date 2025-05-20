@@ -1,12 +1,7 @@
 "use client"
 
-<<<<<<< HEAD
-import { useState, useRef, useEffect } from "react"
-import { StyleSheet, View, Text, Animated, ScrollView } from "react-native"
-=======
 import { useState } from "react"
 import { StyleSheet, View, Text, ScrollView } from "react-native"
->>>>>>> c93316b (Update App AlmaIA)
 import { useNavigation, useRoute } from "@react-navigation/native"
 import BackButton from "../components/common/BackButton"
 import CloseButton from "../components/common/CloseButton"
@@ -20,32 +15,9 @@ const EmotionDetailScreen = () => {
   const route = useRoute()
   const [selectedType, setSelectedType] = useState("positive")
   const [selectedEmotion, setSelectedEmotion] = useState<string | null>(null)
-<<<<<<< HEAD
-  const slideAnim = useRef(new Animated.Value(300)).current // Comienza fuera de la pantalla
-
-  useEffect(() => {
-    // Animar la entrada de la pantalla
-    Animated.timing(slideAnim, {
-      toValue: 0,
-      duration: 300,
-      useNativeDriver: true,
-    }).start()
-  }, [])
-
-  const handleBack = () => {
-    // Animar la salida de la pantalla
-    Animated.timing(slideAnim, {
-      toValue: 300,
-      duration: 300,
-      useNativeDriver: true,
-    }).start(() => {
-      navigation.goBack()
-    })
-=======
 
   const handleBack = () => {
     navigation.goBack()
->>>>>>> c93316b (Update App AlmaIA)
   }
 
   const handleClose = () => {
@@ -54,25 +26,10 @@ const EmotionDetailScreen = () => {
 
   const handleContinue = () => {
     if (selectedEmotion) {
-<<<<<<< HEAD
-      // Animar la salida de la pantalla hacia la izquierda
-      Animated.timing(slideAnim, {
-        toValue: -300,
-        duration: 300,
-        useNativeDriver: true,
-      }).start(() => {
-        // Navegar a la pantalla de factores de buen día
-        navigation.navigate("GoodDayFactors", {
-          selectedMood: route.params?.selectedMood,
-          selectedEmotion: selectedEmotion,
-          emotionType: selectedType,
-        })
-=======
       navigation.navigate("GoodDayFactors", {
         selectedMood: route.params?.selectedMood,
         selectedEmotion: selectedEmotion,
         emotionType: selectedType,
->>>>>>> c93316b (Update App AlmaIA)
       })
     }
   }
@@ -106,11 +63,7 @@ const EmotionDetailScreen = () => {
   const emotions = selectedType === "positive" ? positiveEmotions : negativeEmotions
 
   return (
-<<<<<<< HEAD
-    <Animated.View style={[styles.container, { transform: [{ translateX: slideAnim }] }]}>
-=======
     <View style={styles.container}>
->>>>>>> c93316b (Update App AlmaIA)
       <View style={styles.header}>
         <BackButton onPress={handleBack} />
         <CloseButton onPress={handleClose} />
@@ -129,11 +82,7 @@ const EmotionDetailScreen = () => {
       <View style={styles.footer}>
         <ContinueButton onPress={handleContinue} disabled={!selectedEmotion} />
       </View>
-<<<<<<< HEAD
-    </Animated.View>
-=======
     </View>
->>>>>>> c93316b (Update App AlmaIA)
   )
 }
 
