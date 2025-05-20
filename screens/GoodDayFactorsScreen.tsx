@@ -1,7 +1,12 @@
 "use client"
 
+<<<<<<< HEAD
 import { useState, useRef, useEffect } from "react"
 import { StyleSheet, View, Text, Animated, ScrollView } from "react-native"
+=======
+import { useState } from "react"
+import { StyleSheet, View, Text, ScrollView } from "react-native"
+>>>>>>> c93316b (Update App AlmaIA)
 import { useNavigation, useRoute } from "@react-navigation/native"
 import BackButton from "../components/common/BackButton"
 import CloseButton from "../components/common/CloseButton"
@@ -13,6 +18,7 @@ const GoodDayFactorsScreen = () => {
   const navigation = useNavigation()
   const route = useRoute()
   const [selectedActivities, setSelectedActivities] = useState<string[]>([])
+<<<<<<< HEAD
   const slideAnim = useRef(new Animated.Value(300)).current // Comienza fuera de la pantalla
 
   useEffect(() => {
@@ -33,6 +39,11 @@ const GoodDayFactorsScreen = () => {
     }).start(() => {
       navigation.goBack()
     })
+=======
+
+  const handleBack = () => {
+    navigation.goBack()
+>>>>>>> c93316b (Update App AlmaIA)
   }
 
   const handleClose = () => {
@@ -41,6 +52,7 @@ const GoodDayFactorsScreen = () => {
 
   const handleContinue = () => {
     if (selectedActivities.length > 0) {
+<<<<<<< HEAD
       // Animar la salida de la pantalla hacia la izquierda
       Animated.timing(slideAnim, {
         toValue: -300,
@@ -54,6 +66,13 @@ const GoodDayFactorsScreen = () => {
           emotionType: route.params?.emotionType,
           selectedActivities,
         })
+=======
+      navigation.navigate("DiaryEntry", {
+        selectedMood: route.params?.selectedMood,
+        selectedEmotion: route.params?.selectedEmotion,
+        emotionType: route.params?.emotionType,
+        selectedActivities,
+>>>>>>> c93316b (Update App AlmaIA)
       })
     }
   }
@@ -69,7 +88,11 @@ const GoodDayFactorsScreen = () => {
   }
 
   return (
+<<<<<<< HEAD
     <Animated.View style={[styles.container, { transform: [{ translateX: slideAnim }] }]}>
+=======
+    <View style={styles.container}>
+>>>>>>> c93316b (Update App AlmaIA)
       <View style={styles.header}>
         <BackButton onPress={handleBack} />
         <CloseButton onPress={handleClose} />
@@ -86,7 +109,11 @@ const GoodDayFactorsScreen = () => {
       <View style={styles.footer}>
         <ContinueButton onPress={handleContinue} disabled={selectedActivities.length === 0} />
       </View>
+<<<<<<< HEAD
     </Animated.View>
+=======
+    </View>
+>>>>>>> c93316b (Update App AlmaIA)
   )
 }
 

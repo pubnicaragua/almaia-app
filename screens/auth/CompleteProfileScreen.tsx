@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // "use client"
 
 // import { useState } from "react"
@@ -192,6 +193,8 @@
 
 // export default CompleteProfileScreen
 
+=======
+>>>>>>> c93316b (Update App AlmaIA)
 "use client"
 
 import { useState } from "react"
@@ -260,7 +263,10 @@ const CompleteProfileScreen = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+<<<<<<< HEAD
 
+=======
+>>>>>>> c93316b (Update App AlmaIA)
         <TouchableOpacity style={styles.backButton} onPress={handleBack}>
           <Ionicons name="arrow-back" size={24} color="white" />
         </TouchableOpacity>

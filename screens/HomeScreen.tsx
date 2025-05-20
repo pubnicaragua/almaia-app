@@ -12,10 +12,14 @@ import colors from "constants/colors"
 const HomeScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
+<<<<<<< HEAD
       <StatusBar
         backgroundColor={colors.primaryBlueLow}
         barStyle="light-content"
       />
+=======
+      <StatusBar backgroundColor={colors.primaryBlueLow} barStyle="light-content" />
+>>>>>>> c93316b (Update App AlmaIA)
       <ScrollView showsVerticalScrollIndicator={false}>
         <Header />
         <MascotGreeting />
@@ -33,7 +37,11 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+<<<<<<< HEAD
     backgroundColor: "white"
+=======
+    backgroundColor: "white",
+>>>>>>> c93316b (Update App AlmaIA)
   },
   daySection: {
     flexDirection: "column",

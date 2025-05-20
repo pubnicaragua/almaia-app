@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+<<<<<<< HEAD
 import {
   StyleSheet,
   View,
@@ -12,6 +13,9 @@ import {
   ScrollView,
   Image,
 } from "react-native"
+=======
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, ScrollView } from "react-native"
+>>>>>>> c93316b (Update App AlmaIA)
 import { useNavigation } from "@react-navigation/native"
 import { SvgXml } from "react-native-svg"
 import { almiehappysvg } from "@/indexsvfg"
@@ -57,7 +61,10 @@ const RegisterScreen = () => {
 
   return (
     <View style={styles.container}>
+<<<<<<< HEAD
 
+=======
+>>>>>>> c93316b (Update App AlmaIA)
       <View style={styles.header}>
         <BackButton onPress={handleBack} />
       </View>

@@ -1,6 +1,10 @@
 {
   "expo": {
+<<<<<<< HEAD
     "name": "Alma",
+=======
+    "name": "AlmaIA",
+>>>>>>> c93316b (Update App AlmaIA)
     "slug": "almaia",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -8,7 +12,11 @@
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
+<<<<<<< HEAD
       "image": "./assets/splash-icon.png",
+=======
+      "image": "./assets/icon.png",
+>>>>>>> c93316b (Update App AlmaIA)
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -17,7 +25,11 @@
     },
     "android": {
       "adaptiveIcon": {
+<<<<<<< HEAD
         "foregroundImage": "./assets/adaptive-icon.png",
+=======
+        "foregroundImage": "./assets/icon.png",
+>>>>>>> c93316b (Update App AlmaIA)
         "backgroundColor": "#ffffff"
       },
       "package": "com.k2suci.almaia"

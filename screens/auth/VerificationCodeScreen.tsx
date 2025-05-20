@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // "use client"
 
 // import { useState, useRef } from "react"
@@ -179,6 +180,8 @@
 
 // export default VerificationCodeScreen
 
+=======
+>>>>>>> c93316b (Update App AlmaIA)
 "use client"
 
 import { useState, useRef } from "react"
@@ -243,7 +246,10 @@ const VerificationCodeScreen = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+<<<<<<< HEAD
 
+=======
+>>>>>>> c93316b (Update App AlmaIA)
         <View style={styles.content}>
           <TouchableOpacity style={styles.backButton} onPress={handleBack}>
             <Ionicons name="arrow-back" size={24} color="white" />

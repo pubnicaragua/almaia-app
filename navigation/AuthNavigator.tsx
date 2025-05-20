@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // import { createStackNavigator } from "@react-navigation/stack"
 // import LoginScreen from "../screens/auth/LoginScreen"
 // import RegisterScreen from "../screens/auth/RegisterScreen"
@@ -21,6 +22,8 @@
 
 // export default AuthNavigator
 
+=======
+>>>>>>> c93316b (Update App AlmaIA)
 import { createStackNavigator } from "@react-navigation/stack"
 import LoginScreen from "../screens/auth/LoginScreen"
 import RegisterScreen from "../screens/auth/RegisterScreen"
