@@ -1,21 +1,12 @@
 "use client"
 
-<<<<<<< HEAD
-import { useState, useRef, useEffect } from "react"
-import { StyleSheet, View, Text, Animated, TextInput, KeyboardAvoidingView, Platform } from "react-native"
-=======
 import { useState } from "react"
 import { StyleSheet, View, Text, TextInput, KeyboardAvoidingView, Platform } from "react-native"
->>>>>>> c93316b (Update App AlmaIA)
 import { useNavigation, useRoute } from "@react-navigation/native"
 import BackButton from "../components/common/BackButton"
 import CloseButton from "../components/common/CloseButton"
 import ProgressBar from "../components/common/ProgressBar"
 import ContinueButton from "../components/common/ContinueButton"
-<<<<<<< HEAD
-import PointsBadge from "../components/diary-entry/PointsBadge"
-=======
->>>>>>> c93316b (Update App AlmaIA)
 
 const DiaryEntryScreen = () => {
   const navigation = useNavigation<any>()
@@ -23,32 +14,9 @@ const DiaryEntryScreen = () => {
   const [diaryText, setDiaryText] = useState(
     "Hoy fue un día muy divertido. En la mañana jugué con mis amigos y nos reímos mucho. En la tarde hice mi tarea y aunque fue un poco difícil, me sentí orgulloso cuando la terminé. También hablé con Almie y me recordó que está bien sentir muchas emociones en un solo día. Me hizo pensar en lo bueno que pasó hoy y me gustó escribirlo aquí. ¡Mañana será otro día para seguir aprendiendo y divirtiéndome!",
   )
-<<<<<<< HEAD
-  const slideAnim = useRef(new Animated.Value(300)).current // Comienza fuera de la pantalla
-
-  useEffect(() => {
-    // Animar la entrada de la pantalla
-    Animated.timing(slideAnim, {
-      toValue: 0,
-      duration: 300,
-      useNativeDriver: true,
-    }).start()
-  }, [])
-
-  const handleBack = () => {
-    // Animar la salida de la pantalla
-    Animated.timing(slideAnim, {
-      toValue: 300,
-      duration: 300,
-      useNativeDriver: true,
-    }).start(() => {
-      navigation.goBack()
-    })
-=======
 
   const handleBack = () => {
     navigation.goBack()
->>>>>>> c93316b (Update App AlmaIA)
   }
 
   const handleClose = () => {
@@ -56,39 +24,18 @@ const DiaryEntryScreen = () => {
   }
 
   const handleContinue = () => {
-<<<<<<< HEAD
-    // Animar la salida de la pantalla hacia la izquierda
-    Animated.timing(slideAnim, {
-      toValue: -300,
-      duration: 300,
-      useNativeDriver: true,
-    }).start(() => {
-      // Navegar a la pantalla de agradecimiento
-      navigation.navigate("ThankYou", {
-        selectedMood: route.params?.selectedMood,
-        selectedEmotion: route.params?.selectedEmotion,
-        emotionType: route.params?.emotionType,
-        selectedActivities: route.params?.selectedActivities,
-        diaryText,
-      })
-=======
     navigation.navigate("ThankYou", {
       selectedMood: route.params?.selectedMood,
       selectedEmotion: route.params?.selectedEmotion,
       emotionType: route.params?.emotionType,
       selectedActivities: route.params?.selectedActivities,
       diaryText,
->>>>>>> c93316b (Update App AlmaIA)
     })
   }
 
   return (
     <KeyboardAvoidingView style={styles.keyboardAvoidingView} behavior={Platform.OS === "ios" ? "padding" : "height"}>
-<<<<<<< HEAD
-      <Animated.View style={[styles.container, { transform: [{ translateX: slideAnim }] }]}>
-=======
       <View style={styles.container}>
->>>>>>> c93316b (Update App AlmaIA)
         <View style={styles.header}>
           <BackButton onPress={handleBack} />
           <CloseButton onPress={handleClose} />
@@ -109,10 +56,6 @@ const DiaryEntryScreen = () => {
               textAlignVertical="top"
             />
             <View style={styles.diaryFooter}>
-<<<<<<< HEAD
-              {/* <PointsBadge points={500} /> */}
-=======
->>>>>>> c93316b (Update App AlmaIA)
               <Text style={styles.charCount}>{diaryText.length}/1000</Text>
             </View>
           </View>
@@ -121,11 +64,7 @@ const DiaryEntryScreen = () => {
         <View style={styles.footer}>
           <ContinueButton onPress={handleContinue} />
         </View>
-<<<<<<< HEAD
-      </Animated.View>
-=======
       </View>
->>>>>>> c93316b (Update App AlmaIA)
     </KeyboardAvoidingView>
   )
 }

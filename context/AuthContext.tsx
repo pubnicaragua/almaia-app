@@ -1,13 +1,9 @@
 "use client"
 
-<<<<<<< HEAD
-import { createContext, useState, useContext, type ReactNode } from "react"
-=======
 import { createContext, useState, useContext, type ReactNode, useEffect, useRef } from "react"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { API_ENDPOINTS, fetchApi, getAuthToken, isTokenValid, AUTH_TOKEN_KEY, USER_DATA_KEY } from "../config/api"
 import { useToast } from "./ToastContext"
->>>>>>> c93316b (Update App AlmaIA)
 
 interface User {
   id: string
@@ -18,12 +14,6 @@ interface User {
 interface AuthContextType {
   user: User | null
   isLoading: boolean
-<<<<<<< HEAD
-  login: (email: string, password: string) => Promise<void>
-  register: (name: string, email: string, password: string) => Promise<void>
-  logout: () => void
-  forgotPassword: (email: string) => Promise<void>
-=======
   error: string | null
   login: (email: string, password: string) => Promise<void>
   register: (name: string, email: string, password: string) => Promise<void>
@@ -31,7 +21,6 @@ interface AuthContextType {
   forgotPassword: (email: string) => Promise<void>
   clearError: () => void
   checkTokenValidity: () => Promise<boolean>
->>>>>>> c93316b (Update App AlmaIA)
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -39,21 +28,6 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(false)
-<<<<<<< HEAD
-
-  const login = async (email: string, password: string) => {
-    setIsLoading(true)
-    try {
-      // Aquí iría la lógica real de autenticación
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-      setUser({
-        id: "1",
-        name: "Usuario de Prueba",
-        email,
-      })
-    } catch (error) {
-      console.error("Error al iniciar sesión:", error)
-=======
   const [error, setError] = useState<string | null>(null)
   const { showToast } = useToast()
 
@@ -179,7 +153,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const errorMessage = error.message || "Error al iniciar sesión. Verifica tus credenciales."
       setError(errorMessage)
       showToast(errorMessage, "error")
->>>>>>> c93316b (Update App AlmaIA)
       throw error
     } finally {
       setIsLoading(false)
@@ -188,18 +161,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const register = async (name: string, email: string, password: string) => {
     setIsLoading(true)
-<<<<<<< HEAD
-    try {
-      // Aquí iría la lógica real de registro
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-      setUser({
-        id: "1",
-        name,
-        email,
-      })
-    } catch (error) {
-      console.error("Error al registrarse:", error)
-=======
     setError(null)
 
     try {
@@ -223,17 +184,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const errorMessage = error.message || "Error al registrarse. Inténtalo de nuevo."
       setError(errorMessage)
       showToast(errorMessage, "error")
->>>>>>> c93316b (Update App AlmaIA)
       throw error
     } finally {
       setIsLoading(false)
     }
   }
 
-<<<<<<< HEAD
-  const logout = () => {
-    setUser(null)
-=======
   const logout = async (showNotification = true) => {
     try {
       // Eliminar el token y los datos del usuario de AsyncStorage
@@ -256,18 +212,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         showToast("Error al cerrar sesión", "error")
       }
     }
->>>>>>> c93316b (Update App AlmaIA)
   }
 
   const forgotPassword = async (email: string) => {
     setIsLoading(true)
-<<<<<<< HEAD
-    try {
-      // Aquí iría la lógica real de recuperación de contraseña
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-    } catch (error) {
-      console.error("Error al solicitar recuperación de contraseña:", error)
-=======
     setError(null)
 
     try {
@@ -280,7 +228,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const errorMessage = error.message || "Error al solicitar recuperación de contraseña. Inténtalo de nuevo."
       setError(errorMessage)
       showToast(errorMessage, "error")
->>>>>>> c93316b (Update App AlmaIA)
       throw error
     } finally {
       setIsLoading(false)
@@ -288,9 +235,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   return (
-<<<<<<< HEAD
-    <AuthContext.Provider value={{ user, isLoading, login, register, logout, forgotPassword }}>
-=======
     <AuthContext.Provider
       value={{
         user,
@@ -304,7 +248,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         checkTokenValidity,
       }}
     >
->>>>>>> c93316b (Update App AlmaIA)
       {children}
     </AuthContext.Provider>
   )

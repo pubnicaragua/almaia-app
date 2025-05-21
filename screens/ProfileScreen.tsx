@@ -1,75 +1,34 @@
 "use client"
-<<<<<<< HEAD
-import { StyleSheet, View, ScrollView } from "react-native"
-import { SafeAreaView } from "react-native-safe-area-context"
-import { useState } from "react"
-=======
 import { StyleSheet, View, ScrollView, TouchableOpacity, Text, ActivityIndicator, RefreshControl } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { useState, useCallback } from "react"
->>>>>>> c93316b (Update App AlmaIA)
 import ProfileHeader from "../components/profile/ProfileHeader"
 import PersonalInfoSection from "../components/profile/PersonalInfoSection"
 import WeeklyRegisterSection from "../components/profile/WeeklyRegisterSection"
 import AchievementsSection from "../components/profile/AchievementsSection"
 import SOSModal from "../components/modals/SOSModal"
 import AccessibilityModal from "components/modals/AccessibilityModal"
-<<<<<<< HEAD
-=======
 import { useAuth } from "context/AuthContext"
 import { useProfile } from "context/ProfileContext"
 import { Ionicons } from "@expo/vector-icons"
->>>>>>> c93316b (Update App AlmaIA)
 
 const ProfileScreen = () => {
   const [sosModalVisible, setSOSModalVisible] = useState(false)
   const [accessibilityModalVisible, setAccessibilityModalVisible] = useState(false)
-<<<<<<< HEAD
-
-  const handleRequestHelp = () => {
-    // Aquí iría la lógica para solicitar ayuda
-=======
   const [refreshing, setRefreshing] = useState(false)
   const { logout } = useAuth()
   const { profileData, isLoading, fetchProfile } = useProfile()
 
   const handleRequestHelp = () => {
->>>>>>> c93316b (Update App AlmaIA)
     console.log("Solicitar ayuda")
     setSOSModalVisible(false)
   }
 
   const handleReport = () => {
-<<<<<<< HEAD
-    // Aquí iría la lógica para realizar una denuncia
-=======
->>>>>>> c93316b (Update App AlmaIA)
     console.log("Realizar denuncia")
     setSOSModalVisible(false)
   }
 
-<<<<<<< HEAD
-  // Datos del usuario (en una aplicación real vendrían de una API o contexto)
-  const userData = {
-    id: "194353",
-    fullName: "Paolo César Fernández Costa",
-    nickname: "Xorieh",
-    nationality: "Chile",
-    age: "8 años",
-    school: "Santiago Apostol",
-    phone: "+51 943 925 343",
-    father: "Cesar Fernández",
-    mother: "Paola Costa",
-    profileImage: require("../assets/icon.png"),
-  }
-
-  return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        <ProfileHeader name="Paolo Fernandez" profileImage={userData.profileImage} onSOSPress={() => setSOSModalVisible(true)} onAccesPress={() => setAccessibilityModalVisible(true)} />
-
-        <View style={styles.content}>
-=======
   const handleLogout = () => {
     logout()
   }
@@ -178,7 +137,6 @@ const ProfileScreen = () => {
             </View>
           )}
 
->>>>>>> c93316b (Update App AlmaIA)
           <PersonalInfoSection
             id={userData.id}
             fullName={userData.fullName}
@@ -191,11 +149,6 @@ const ProfileScreen = () => {
             mother={userData.mother}
           />
 
-<<<<<<< HEAD
-          <WeeklyRegisterSection currentStreak={1} bestStreak={1} />
-
-          <AchievementsSection />
-=======
           {profileData?.rol && (
             <View style={styles.rolContainer}>
               <Text style={styles.rolTitle}>Rol en el sistema</Text>
@@ -214,7 +167,6 @@ const ProfileScreen = () => {
             <Ionicons name="log-out-outline" size={24} color="white" style={styles.logoutIcon} />
             <Text style={styles.logoutText}>Cerrar Sesión</Text>
           </TouchableOpacity>
->>>>>>> c93316b (Update App AlmaIA)
         </View>
       </ScrollView>
 
@@ -233,11 +185,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     position: "relative",
-<<<<<<< HEAD
-    backgroundColor: "white"
-=======
     backgroundColor: "white",
->>>>>>> c93316b (Update App AlmaIA)
   },
   scrollContent: {
     flexGrow: 1,
@@ -248,8 +196,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 20,
   },
-<<<<<<< HEAD
-=======
   loadingContainer: {
     flex: 1,
     justifyContent: "center",
@@ -320,7 +266,6 @@ const styles = StyleSheet.create({
   logoutIcon: {
     marginRight: 10,
   },
->>>>>>> c93316b (Update App AlmaIA)
 })
 
 export default ProfileScreen

@@ -1,43 +1,18 @@
 "use client"
 import { useState, useEffect } from "react"
-<<<<<<< HEAD
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-  ScrollView,
-} from "react-native"
-=======
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, ScrollView } from "react-native"
->>>>>>> c93316b (Update App AlmaIA)
 import { useAuth } from "context/AuthContext"
 import { useNavigation } from "@react-navigation/native"
 import { almiehello, bubblehello, animatedHandsvg } from "@/indexsvfg"
 import { SvgXml } from "react-native-svg"
 import colors from "constants/colors"
-<<<<<<< HEAD
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withRepeat,
-  withTiming,
-  Easing
-} from "react-native-reanimated"
-=======
 import Animated, { useSharedValue, useAnimatedStyle, withRepeat, withTiming, Easing } from "react-native-reanimated"
 import { Ionicons } from "@expo/vector-icons"
->>>>>>> c93316b (Update App AlmaIA)
 
 const LoginScreen = () => {
   const navigation = useNavigation<any>()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-<<<<<<< HEAD
-  const [isLoading, setIsLoading] = useState(false)
-  const { login } = useAuth()
-=======
   const [showPassword, setShowPassword] = useState(false)
   const { login, isLoading, error, clearError } = useAuth()
 
@@ -45,21 +20,13 @@ const LoginScreen = () => {
   useEffect(() => {
     clearError()
   }, [])
->>>>>>> c93316b (Update App AlmaIA)
 
   // Animación de la mano
   const rotation = useSharedValue(0)
 
   const animatedHandStyle = useAnimatedStyle(() => {
     return {
-<<<<<<< HEAD
-      transform: [
-        { scale: 1.7 },
-        { rotate: `${rotation.value}deg` }
-      ],
-=======
       transform: [{ scale: 1.7 }, { rotate: `${rotation.value}deg` }],
->>>>>>> c93316b (Update App AlmaIA)
     }
   })
 
@@ -68,27 +35,6 @@ const LoginScreen = () => {
     rotation.value = withRepeat(
       withTiming(15, {
         duration: 1000,
-<<<<<<< HEAD
-        easing: Easing.inOut(Easing.quad)
-      }),
-      -1, // Repetir infinitamente
-      true // Reversar la animación
-    )
-  }, [])
-
-  const handleLogin = () => {
-    if (!email || !password) {
-      // Mostrar error
-      return
-    }
-    setIsLoading(true)
-
-    setTimeout(() => {
-      login(email, password)
-      setIsLoading(false)
-      // Navegar a la pantalla principal
-    }, 1500)
-=======
         easing: Easing.inOut(Easing.quad),
       }),
       -1, // Repetir infinitamente
@@ -109,7 +55,6 @@ const LoginScreen = () => {
       // Los errores ya se manejan en el contexto y se muestran a través del sistema de toast
       console.log("Error capturado en la pantalla:", error)
     }
->>>>>>> c93316b (Update App AlmaIA)
   }
 
   const handleForgotPassword = () => {
@@ -120,13 +65,10 @@ const LoginScreen = () => {
     navigation.navigate("Register")
   }
 
-<<<<<<< HEAD
-=======
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword)
   }
 
->>>>>>> c93316b (Update App AlmaIA)
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
@@ -146,19 +88,6 @@ const LoginScreen = () => {
             onChangeText={setEmail}
             keyboardType="email-address"
             autoCapitalize="none"
-<<<<<<< HEAD
-          />
-
-          <TextInput
-            style={styles.input}
-            placeholder="Contraseña"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-          />
-
-          <TouchableOpacity style={styles.forgotPasswordContainer} onPress={handleForgotPassword}>
-=======
             editable={!isLoading}
           />
 
@@ -177,7 +106,6 @@ const LoginScreen = () => {
           </View>
 
           <TouchableOpacity style={styles.forgotPasswordContainer} onPress={handleForgotPassword} disabled={isLoading}>
->>>>>>> c93316b (Update App AlmaIA)
             <Text style={styles.forgotPasswordText}>¿Olvidaste tu contraseña?</Text>
           </TouchableOpacity>
 
@@ -189,11 +117,7 @@ const LoginScreen = () => {
             <Text style={styles.loginButtonText}>{isLoading ? "Cargando..." : "Iniciar Sesión"}</Text>
           </TouchableOpacity>
 
-<<<<<<< HEAD
-          <TouchableOpacity style={styles.registerContainer} onPress={handleRegister}>
-=======
           <TouchableOpacity style={styles.registerContainer} onPress={handleRegister} disabled={isLoading}>
->>>>>>> c93316b (Update App AlmaIA)
             <Text style={styles.registerText}>¿No tienes cuenta? Regístrate</Text>
           </TouchableOpacity>
         </View>
@@ -205,11 +129,7 @@ const LoginScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-<<<<<<< HEAD
-    backgroundColor: colors.background
-=======
     backgroundColor: colors.background,
->>>>>>> c93316b (Update App AlmaIA)
   },
   scrollContent: {
     flexGrow: 1,
@@ -232,8 +152,6 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     fontSize: 16,
   },
-<<<<<<< HEAD
-=======
   passwordContainer: {
     position: "relative",
     marginBottom: 15,
@@ -251,7 +169,6 @@ const styles = StyleSheet.create({
     top: 12,
     padding: 5,
   },
->>>>>>> c93316b (Update App AlmaIA)
   forgotPasswordContainer: {
     alignItems: "flex-end",
     marginBottom: 30,
@@ -286,14 +203,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 65,
     bottom: 50,
-<<<<<<< HEAD
-  }
-})
-
-export default LoginScreen
-=======
   },
 })
 
 export default LoginScreen
->>>>>>> c93316b (Update App AlmaIA)
