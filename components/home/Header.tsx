@@ -1,54 +1,61 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native"
-import { Ionicons } from "@expo/vector-icons"
-import SOSModal from "../modals/SOSModal"
-import AccessibilityModal from "../modals/AccessibilityModal"
-import { useAuth } from "context/AuthContext"
+import { useState } from "react";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import SOSModal from "../modals/SOSModal";
+import AccessibilityModal from "../modals/AccessibilityModal";
+import { useAuth } from "context/AuthContext";
 
 const Header = () => {
-  const [sosModalVisible, setSOSModalVisible] = useState(false)
-  const [accessibilityModalVisible, setAccessibilityModalVisible] = useState(false)
-  const {logout} = useAuth()
+  const [sosModalVisible, setSOSModalVisible] = useState(false);
+  const [accessibilityModalVisible, setAccessibilityModalVisible] =
+    useState(false);
+  const { logout } = useAuth();
 
   const handleSOSPress = () => {
-    setSOSModalVisible(true)
-  }
+    setSOSModalVisible(true);
+  };
 
   const handleCloseSOSModal = () => {
-    setSOSModalVisible(false)
-  }
+    setSOSModalVisible(false);
+  };
 
   const handleAccessibilityPress = () => {
-    setAccessibilityModalVisible(true)
-  }
+    setAccessibilityModalVisible(true);
+  };
 
   const handleCloseAccessibilityModal = () => {
-    setAccessibilityModalVisible(false)
-  }
+    setAccessibilityModalVisible(false);
+  };
 
-  const handleRequestHelp = () => {
+  const handleRequestHelp = async () => {
     // Aquí iría la lógica para solicitar ayuda
-    console.log("Solicitar ayuda")
-    setSOSModalVisible(false)
-  }
+    
+    console.log("Solicitar ayuda");
+    setSOSModalVisible(false);
+  };
 
   const handleReport = () => {
     // Aquí iría la lógica para realizar una denuncia
-    console.log("Realizar denuncia")
-    setSOSModalVisible(false)
-  }
+    console.log("Realizar denuncia");
+    setSOSModalVisible(false);
+  };
 
   return (
     <>
       <View style={styles.container}>
-        <Text style={styles.title} onPress={logout}>Hoy</Text>
+        <Text style={styles.title} onPress={logout}>
+          Hoy
+        </Text>
         <View style={styles.buttonsContainer}>
           <TouchableOpacity style={styles.sosButton} onPress={handleSOSPress}>
             <Text style={styles.sosText}>SOS</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.accessibilityButton} onPress={handleAccessibilityPress}>
+          <TouchableOpacity
+            style={styles.accessibilityButton}
+            onPress={handleAccessibilityPress}
+          >
             <Ionicons name="accessibility" size={20} color="white" />
           </TouchableOpacity>
         </View>
@@ -61,10 +68,13 @@ const Header = () => {
         onReport={handleReport}
       />
 
-      <AccessibilityModal visible={accessibilityModalVisible} onClose={handleCloseAccessibilityModal} />
+      <AccessibilityModal
+        visible={accessibilityModalVisible}
+        onClose={handleCloseAccessibilityModal}
+      />
     </>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -103,6 +113,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-})
+});
 
-export default Header
+export default Header;

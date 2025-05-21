@@ -1,19 +1,30 @@
-"use client"
-import { useState, useEffect } from "react"
-import { StyleSheet, ScrollView, TouchableOpacity, View, Text } from "react-native"
-import { SafeAreaView } from "react-native-safe-area-context"
-import Header from "../src/components/home/Header"
-import MascotMessage from "../src/components/tasks/MascotMessage"
-import TaskTabs from "../src/components/tasks/TaskTabs"
-import TaskList from "../src/components/tasks/TaskList"
-import SOSModal from "../src/components/modals/SOSModal"
-import AddTaskModal from "../src/components/modals/AddTaskModal"
-import { Ionicons } from "@expo/vector-icons"
+"use client";
+import { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  View,
+  Text,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Header from "../src/components/home/Header";
+import MascotMessage from "../src/components/tasks/MascotMessage";
+import TaskTabs from "../src/components/tasks/TaskTabs";
+import TaskList from "../src/components/tasks/TaskList";
+import SOSModal from "../src/components/modals/SOSModal";
+import AddTaskModal from "../src/components/modals/AddTaskModal";
+import { Ionicons } from "@expo/vector-icons";
+import { API_ENDPOINTS, fetchAuthApi } from "config/api";
+import { mapearTareasPorMes } from "service/TareasService";
+import { useAuth } from "context/AuthContext";
 
 const TasksScreen = () => {
-  const [activeTab, setActiveTab] = useState("Tareas")
-  const [sosModalVisible, setSOSModalVisible] = useState(false)
-  const [addTaskModalVisible, setAddTaskModalVisible] = useState(false)
+  const [activeTab, setActiveTab] = useState("Tareas");
+  const [sosModalVisible, setSOSModalVisible] = useState(false);
+  const [addTaskModalVisible, setAddTaskModalVisible] = useState(false);
+  const { user } = useAuth();
+
   const [tasks, setTasks] = useState([
     {
       id: 1,
@@ -47,63 +58,82 @@ const TasksScreen = () => {
       month: "Abril",
       items: [],
     },
-  ])
+  ]);
 
   // Añadir un efecto para registrar cuando se monta el componente
   useEffect(() => {
-    console.log("TasksScreen mounted")
+    obtener_tareas();
+    console.log("TasksScreen mounted");
     return () => {
-      console.log("TasksScreen unmounted")
+      console.log("TasksScreen unmounted");
+    };
+  }, []);
+
+  async function obtener_tareas() {
+    try {
+      const tareas = await fetchAuthApi(
+        API_ENDPOINTS.TAREAS + "?alumno_id=" + user?.alumno_id,
+        {
+          method: "GET",
+        }
+      );
+      const tareas_mes = mapearTareasPorMes(tareas);
+      setTasks(tareas_mes);
+    } catch (error) {
+      console.error("Error al obtener tareas:", error);
+      throw error;
     }
-  }, [])
+  }
 
   const handleSOSPress = () => {
-    setSOSModalVisible(true)
-  }
+    setSOSModalVisible(true);
+  };
 
   const handleCloseSOSModal = () => {
-    setSOSModalVisible(false)
-  }
+    setSOSModalVisible(false);
+  };
 
   const handleRequestHelp = () => {
     // Aquí iría la lógica para solicitar ayuda
-    console.log("Solicitar ayuda")
-    setSOSModalVisible(false)
-  }
+    console.log("Solicitar ayuda");
+    setSOSModalVisible(false);
+  };
 
   const handleReport = () => {
     // Aquí iría la lógica para realizar una denuncia
-    console.log("Realizar denuncia")
-    setSOSModalVisible(false)
-  }
+    console.log("Realizar denuncia");
+    setSOSModalVisible(false);
+  };
 
   const handleAccessibilityPress = () => {
-    setAddTaskModalVisible(true)
-  }
+    setAddTaskModalVisible(true);
+  };
 
-  const handleAddTask = (newTask: {
-    subject: string
-    description: string
-    dueDate: string
-    dueTime: string
-    color: string
-    type: string
+  const handleAddTask = async (newTask: {
+    subject: string;
+    description: string;
+    dueDate: string;
+    dueTime: string;
+    color: string;
+    type: string;
   }) => {
     // Determinar el mes actual (en una app real, extraeríamos esto de la fecha)
-    const currentMonth = "Marzo"
+    const currentMonth = "Marzo";
 
     // Buscar el grupo de tareas del mes actual
-    const monthGroup = tasks.find((group) => group.month === currentMonth)
+    const monthGroup = tasks.find((group) => group.month === currentMonth);
 
     if (monthGroup) {
       // Crear una copia de las tareas
-      const updatedTasks = [...tasks]
+      const updatedTasks = [...tasks];
 
       // Encontrar el índice del grupo del mes actual
-      const monthIndex = updatedTasks.findIndex((group) => group.month === currentMonth)
+      const monthIndex = updatedTasks.findIndex(
+        (group) => group.month === currentMonth
+      );
 
       // Generar un nuevo ID para la tarea (en una app real, esto sería más robusto)
-      const newId = Math.max(...monthGroup.items.map((item) => item.id), 0) + 1
+      const newId = Math.max(...monthGroup.items.map((item) => item.id), 0) + 1;
 
       // Añadir la nueva tarea al grupo del mes actual
       updatedTasks[monthIndex].items.push({
@@ -112,23 +142,46 @@ const TasksScreen = () => {
         description: newTask.description,
         dueDate: `${newTask.dueDate} a las ${newTask.dueTime}`,
         color: newTask.color,
-      })
+      });
 
       // Actualizar el estado
-      setTasks(updatedTasks)
+      setTasks(updatedTasks);
+
+      await fetchAuthApi(API_ENDPOINTS.TAREAS, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          alumno_id: user?.alumno_id,
+          materia_id: newTask.subject,
+          tipo_tarea: newTask.type,
+          descripcion_tarea: newTask.description,
+          fecha_programacion: `${newTask.dueDate} a las ${newTask.dueTime}`,
+          color: newTask.color,
+          estado_tarea: "pendiente",
+        }),
+      });
     }
-  }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <Header />
-        <MascotMessage message="¡Escoge para agregar en tu rutina de tareas!" points={500} />
+        <MascotMessage
+          message="¡Escoge para agregar en tu rutina de tareas!"
+          points={500}
+        />
         <TaskTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
         {tasks && tasks.length > 0 ? (
           tasks.map((taskGroup) => (
-            <TaskList key={taskGroup.id} month={taskGroup.month} tasks={taskGroup.items || []} />
+            <TaskList
+              key={taskGroup.id}
+              month={taskGroup.month}
+              tasks={taskGroup.items || []}
+            />
           ))
         ) : (
           <View style={styles.emptyContainer}>
@@ -149,12 +202,15 @@ const TasksScreen = () => {
         onClose={() => setAddTaskModalVisible(false)}
         onAddTask={handleAddTask}
       />
-      <TouchableOpacity style={styles.addButton} onPress={() => setAddTaskModalVisible(true)}>
+      <TouchableOpacity
+        style={styles.addButton}
+        onPress={() => setAddTaskModalVisible(true)}
+      >
         <Ionicons name="add" size={30} color="white" />
       </TouchableOpacity>
     </SafeAreaView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -192,6 +248,6 @@ const styles = StyleSheet.create({
     color: "#666",
     fontSize: 14,
   },
-})
+});
 
-export default TasksScreen
+export default TasksScreen;
