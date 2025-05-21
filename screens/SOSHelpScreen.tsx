@@ -17,13 +17,33 @@ import { Ionicons } from "@expo/vector-icons"
 import { SvgXml } from "react-native-svg"
 import { useNavigation } from "@react-navigation/native"
 import { almimascotsvg } from "@/indexsvfg"
+import { API_ENDPOINTS, fetchAuthApi } from "config/api"
+import { useAuth } from "context/AuthContext"
 
 const SOSHelpScreen = () => {
   const navigation = useNavigation()
   const [message, setMessage] = useState("")
+  const {  user } = useAuth();
 
-  const handleSend = () => {
+  const handleSend = async () => {
     // Aquí iría la lógica para enviar el mensaje
+     await fetchAuthApi(API_ENDPOINTS.ALERTA, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+          alumno_id: user?.alumno_id,
+          alerta_regla_id: 1, // reemplaza con valor real
+          fecha_generada: new Date().toISOString(), // ejemplo de fecha actual
+          alerta_origen_id: 1, // reemplaza con valor real
+          prioridad_id: 3, // reemplaza con valor real
+          severidad_id: 3, // reemplaza con valor real
+          leida: false,
+          estado: "pendiente",
+          alertas_tipo_alerta_tipo_id: 1, // reemplaza con valor real
+        }),
+        });
     console.log("Mensaje enviado:", message)
     navigation.goBack()
   }

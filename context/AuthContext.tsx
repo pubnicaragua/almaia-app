@@ -2,13 +2,14 @@
 
 import { createContext, useState, useContext, type ReactNode, useEffect, useRef } from "react"
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import { API_ENDPOINTS, fetchApi, getAuthToken, isTokenValid, AUTH_TOKEN_KEY, USER_DATA_KEY } from "../config/api"
+import { API_ENDPOINTS, fetchApi, getAuthToken, isTokenValid, AUTH_TOKEN_KEY, USER_DATA_KEY, fetchAuthApi } from "../config/api"
 import { useToast } from "./ToastContext"
 
 interface User {
   id: string
   name: string
   email: string
+  alumno_id:number
 }
 
 interface AuthContextType {
@@ -134,10 +135,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         // Por ahora, crearemos un usuario básico con la información disponible
         // En una implementación real, podrías hacer otra llamada a la API para obtener los detalles del usuario
+             const profile = await fetchAuthApi(API_ENDPOINTS.PROFILE, {
+               method: "GET",
+             });
+             const alumno = await fetchAuthApi(API_ENDPOINTS.ALUMNO+"?persona_id="+profile.usuario.persona_id ,{
+               method: "GET",
+              });
         const userData = {
-          id: "1", // Este ID debería venir de la API
-          name: email.split("@")[0], // Usamos la parte del email antes del @ como nombre temporal
+          id: profile?.usuario.usuario_id, // Este ID debería venir de la API
+          name: profile?.usuario.nombre_social, // Usamos la parte del email antes del @ como nombre temporal
           email,
+          alumno_id:alumno[0].alumno_id
         }
 
         // Guardar los datos del usuario en AsyncStorage

@@ -6,7 +6,11 @@ export const API_ENDPOINTS = {
   LOGIN: `${API_BASE_URL}/auth/login`,
   PROFILE: `${API_BASE_URL}/perfil/obtener`,
   VERIFY_TOKEN: `${API_BASE_URL}/auth/verify-token`, // Endpoint para verificar el token (ajusta según tu API)
+TAREAS:`${API_BASE_URL}/colegios/alumnos_tareas`,
+ALUMNO:`${API_BASE_URL}/alumnos`,
+ALERTA:`${API_BASE_URL}/alumnos/alertas`
 }
+
 
 // Función para obtener el token de autenticación
 import AsyncStorage from "@react-native-async-storage/async-storage"
@@ -125,6 +129,8 @@ export const fetchApi = async (url: string, options: RequestInit = {}) => {
 
 // Función para hacer peticiones autenticadas a la API
 export const fetchAuthApi = async (url: string, options: RequestInit = {}) => {
+ 
+ 
   const token = await getAuthToken()
 
   if (!token) {
@@ -132,10 +138,10 @@ export const fetchAuthApi = async (url: string, options: RequestInit = {}) => {
   }
 
   // Verificar si el token es válido antes de hacer la petición
-  const isValid = await isTokenValid(token)
+  /*const isValid = await isTokenValid(token)
   if (!isValid) {
     throw new Error("TOKEN_EXPIRED")
-  }
+  }*/
 
   return fetchApi(url, {
     ...options,
