@@ -147,21 +147,7 @@ const TasksScreen = () => {
       // Actualizar el estado
       setTasks(updatedTasks);
 
-      await fetchAuthApi(API_ENDPOINTS.TAREAS, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          alumno_id: user?.alumno_id,
-          materia_id: newTask.subject,
-          tipo_tarea: newTask.type,
-          descripcion_tarea: newTask.description,
-          fecha_programacion: `${newTask.dueDate} a las ${newTask.dueTime}`,
-          color: newTask.color,
-          estado_tarea: "pendiente",
-        }),
-      });
+     
     }
   };
 

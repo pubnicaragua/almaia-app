@@ -1,43 +1,56 @@
-"use client"
-import { useState } from "react"
-import { StyleSheet, Text, TouchableOpacity, Modal, TextInput, ScrollView, View } from "react-native"
-import { Ionicons } from "@expo/vector-icons"
+"use client";
+import { useEffect, useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Modal,
+  TextInput,
+  ScrollView,
+  View,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { API_ENDPOINTS, fetchAuthApi } from "config/api";
+import { useAuth } from "context/AuthContext";
 
 interface AddTaskModalProps {
-  visible: boolean
-  onClose: () => void
+  visible: boolean;
+  onClose: () => void;
   onAddTask: (task: {
-    subject: string
-    description: string
-    dueDate: string
-    dueTime: string
-    color: string
-    type: string
-  }) => void
+    subject: string;
+    description: string;
+    dueDate: string;
+    dueTime: string;
+    color: string;
+    type: string;
+  }) => void;
 }
 
 const AddTaskModal = ({ visible, onClose, onAddTask }: AddTaskModalProps) => {
-  const [subject, setSubject] = useState("")
-  const [selectedColor, setSelectedColor] = useState("#2196F3")
-  const [taskType, setTaskType] = useState("Tarea")
-  const [description, setDescription] = useState("")
-  const [dueDate, setDueDate] = useState("30 de marzo")
-  const [dueTime, setDueTime] = useState("11:55 am")
+  const [subject, setSubject] = useState(0);
+  const [subjects, setSubjects] = useState([]);
+  const [selectedColor, setSelectedColor] = useState("#2196F3");
+  const [taskType, setTaskType] = useState("Tarea");
+  const [description, setDescription] = useState("");
+  const [dueDate, setDueDate] = useState("30 de marzo");
+  const [dueTime, setDueTime] = useState("11:55 am");
+  const { user } = useAuth();
 
-  const handleSubjectSelect = (selectedSubject: string) => {
-    setSubject(selectedSubject)
-  }
+  const handleSubjectSelect = (selectedSubject: number) => {
+    setSubject(selectedSubject);
+  };
 
   const handleColorSelect = (color: string) => {
-    setSelectedColor(color)
-  }
+    setSelectedColor(color);
+  };
 
   const handleTypeSelect = (type: string) => {
-    setTaskType(type)
-  }
+    setTaskType(type);
+  };
 
-  const handleFinish = () => {
+  const handleFinish = async () => {
     if (subject && description) {
+      console.log("guardar tarea ");
       onAddTask({
         subject,
         description,
@@ -45,24 +58,31 @@ const AddTaskModal = ({ visible, onClose, onAddTask }: AddTaskModalProps) => {
         dueTime,
         color: selectedColor,
         type: taskType,
-      })
-
-      setSubject("")
-      setSelectedColor("#2196F3")
-      setTaskType("Tarea")
-      setDescription("")
-      onClose()
+      });
+      console.log(dueDate);
+      
+      await fetchAuthApi(API_ENDPOINTS.TAREAS, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          alumno_id: user?.alumno_id,
+          materia_id: subject,
+          tipo_tarea: taskType,
+          descripcion_tarea: description,
+          fecha_programacion: '2025-05-22',
+          color: selectedColor,
+          estado_tarea: "pendiente",
+        }),
+      });
+      setSubject("");
+      setSelectedColor("#2196F3");
+      setTaskType("Tarea");
+      setDescription("");
+      onClose();
     }
-  }
-
-  const subjects = [
-    { id: 1, name: "MATEMATICAS" },
-    { id: 2, name: "FISICA" },
-    { id: 3, name: "COMUNICACION" },
-    { id: 4, name: "QUIMICA" },
-    { id: 5, name: "BIOLOGIA" },
-    { id: 6, name: "HISTORIA" },
-  ]
+  };
 
   const colors = [
     { id: 1, value: "#2196F3" },
@@ -71,13 +91,30 @@ const AddTaskModal = ({ visible, onClose, onAddTask }: AddTaskModalProps) => {
     { id: 4, value: "#673AB7" },
     { id: 5, value: "#E1BEE7" },
     { id: 6, value: "#F44336" },
-  ]
+  ];
 
-  const currentDate = "25 mar. 2025"
-  const currentTime = "14:55 pm"
+  const currentDate = "25 mar. 2025";
+  const currentTime = "14:55 pm";
 
-  if (!visible) return null
+  useEffect(() => {
+    if (visible) {
+      // lógica solo cuando el modal está visible
+      obtener_materias();
+    }
+  }, [visible]);
+  if (!visible) return null;
 
+  async function obtener_materias() {
+    try {
+      const materias_data = await fetchAuthApi(API_ENDPOINTS.MATERIAS, {
+        method: "GET",
+      });
+      console.log("Materias obtenidas:", materias_data);
+      setSubjects(materias_data);
+    } catch (error) {
+      console.error("Error al obtener materias:", error);
+    }
+  }
   return (
     <Modal visible={visible} transparent animationType="slide">
       <View style={styles.modalOverlay}>
@@ -101,15 +138,15 @@ const AddTaskModal = ({ visible, onClose, onAddTask }: AddTaskModalProps) => {
             <View style={styles.subjectsGrid}>
               {subjects.map((item, index) => (
                 <TouchableOpacity
-                  key={item.id}
+                  key={item.materia_id}
                   style={[
                     styles.subjectButton,
-                    subject === item.name && styles.selectedSubjectButton,
+                    subject === item.nombre && styles.selectedSubjectButton,
                     index > 3 && styles.subjectButtonMarginTop,
                   ]}
-                  onPress={() => handleSubjectSelect(item.name)}
+                  onPress={() => handleSubjectSelect(item.materia_id)}
                 >
-                  <Text style={styles.subjectButtonText}>{item.name}</Text>
+                  <Text style={styles.subjectButtonText}>{item.nombre}</Text>
                 </TouchableOpacity>
               ))}
             </View>
@@ -126,7 +163,9 @@ const AddTaskModal = ({ visible, onClose, onAddTask }: AddTaskModalProps) => {
                   ]}
                   onPress={() => handleColorSelect(color.value)}
                 >
-                  {selectedColor === color.value && <View style={styles.colorCircleInner} />}
+                  {selectedColor === color.value && (
+                    <View style={styles.colorCircleInner} />
+                  )}
                 </TouchableOpacity>
               ))}
             </View>
@@ -134,20 +173,28 @@ const AddTaskModal = ({ visible, onClose, onAddTask }: AddTaskModalProps) => {
             <Text style={styles.sectionTitle}>Tipo de pendiente</Text>
             <View style={styles.typeContainer}>
               <TouchableOpacity
-                style={[styles.typeButton, taskType === "Examen" && styles.selectedTypeButton]}
+                style={[
+                  styles.typeButton,
+                  taskType === "Examen" && styles.selectedTypeButton,
+                ]}
                 onPress={() => handleTypeSelect("Examen")}
               >
                 <Text style={styles.typeButtonText}>Examen</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={[styles.typeButton, taskType === "Tarea" && styles.selectedTypeButton]}
+                style={[
+                  styles.typeButton,
+                  taskType === "Tarea" && styles.selectedTypeButton,
+                ]}
                 onPress={() => handleTypeSelect("Tarea")}
               >
                 <Text style={styles.typeButtonText}>Tarea</Text>
               </TouchableOpacity>
             </View>
 
-            <Text style={styles.sectionTitle}>¿Cual es la tarea pendiente?</Text>
+            <Text style={styles.sectionTitle}>
+              ¿Cual es la tarea pendiente?
+            </Text>
             <View style={styles.descriptionContainer}>
               <TextInput
                 style={styles.descriptionInput}
@@ -171,15 +218,18 @@ const AddTaskModal = ({ visible, onClose, onAddTask }: AddTaskModalProps) => {
               </TouchableOpacity>
             </View>
 
-            <TouchableOpacity style={styles.finishButton} onPress={handleFinish}>
+            <TouchableOpacity
+              style={styles.finishButton}
+              onPress={handleFinish}
+            >
               <Text style={styles.finishButtonText}>Finalizar</Text>
             </TouchableOpacity>
           </ScrollView>
         </View>
       </View>
     </Modal>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   modalOverlay: {
@@ -358,6 +408,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
-})
+});
 
-export default AddTaskModal
+export default AddTaskModal;
