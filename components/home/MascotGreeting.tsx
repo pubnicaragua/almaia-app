@@ -3,13 +3,23 @@ import { SvgXml } from "react-native-svg";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useRef } from "react";
 import { backgroundHomesvg, chatfeelsvg, registerButtonsvg } from "@/indexsvfg";
+import { API_ENDPOINTS, fetchAuthApi } from "config/api";
+import { useAuth } from "context/AuthContext";
+import { agruparPorPregunta } from "service/MotorPreguntasService";
 
 const MascotGreeting = () => {
   const navigation = useNavigation<any>();
   const rotationAnim = useRef(new Animated.Value(0)).current;
+  const { user } = useAuth();
 
-  const handleTaskRegistration = () => {
-    navigation.navigate("MoodSelection");
+  const handleTaskRegistration = async () => {
+    console.log('registro');
+      const preguntas = await fetchAuthApi(
+            API_ENDPOINTS.ALUMNOS_RESPUESTAS + "?alumno_id=" + user?.alumno_id,
+            { method: "GET" }
+          );
+         const preguntasAlumno= agruparPorPregunta(preguntas)
+         navigation.navigate("MoodSelection",preguntasAlumno);
   };
 
   useEffect(() => {

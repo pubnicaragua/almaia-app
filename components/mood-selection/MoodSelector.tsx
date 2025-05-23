@@ -1,27 +1,21 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native"
 import { SvgXml } from "react-native-svg"
 import { fineface, veryfineface, verysadface, sadface, neutralface } from "@/indexsvfg"
+import { MoodOption } from "data/MoodOption"
 
-interface MoodOption {
-  id: number
-  label: string
-  icon: any 
-}
 
 interface MoodSelectorProps {
   onSelectMood: (moodId: number) => void
   selectedMood: number | null
+    moods:MoodOption[]
+
 }
 
-const moods: MoodOption[] = [
-  { id: 1, label: "Muy mal", icon: verysadface },
-  { id: 2, label: "Mal", icon: sadface },
-  { id: 3, label: "Normal", icon: neutralface },
-  { id: 4, label: "Bien", icon: fineface},
-  { id: 5, label: "Muy bien", icon: veryfineface },
-]
 
-const MoodSelector = ({ onSelectMood, selectedMood }: MoodSelectorProps) => {
+
+const MoodSelector = ({ onSelectMood, selectedMood ,moods}: MoodSelectorProps) => {
+  console.log(moods);
+  
   return (
     <View style={styles.container}>
       {moods.map((mood) => (

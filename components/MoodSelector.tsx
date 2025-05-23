@@ -1,27 +1,16 @@
 import { useAuth } from "context/AuthContext"
+import { MoodOption } from "data/MoodOption"
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native"
 
-interface MoodOption {
-  id: number
-  label: string
-  icon: any // En una app real, usaríamos un tipo más específico
-}
+
 
 interface MoodSelectorProps {
   onSelectMood: (moodId: number) => void
   selectedMood: number | null
+  moods:MoodOption[]
 }
 
-const moods: MoodOption[] = [
-  { id: 1, label: "Muy mal", icon: require("../assets/icon.png") },
-  { id: 2, label: "Mal", icon: require("../assets/icon.png") },
-  { id: 3, label: "Normal", icon: require("../assets/icon.png") },
-  { id: 4, label: "Bien", icon: require("../assets/icon.png") },
-  { id: 5, label: "Muy bien", icon: require("../assets/icon.png") },
-]
-  const {  user } = useAuth();
-
-const MoodSelector = ({ onSelectMood, selectedMood }: MoodSelectorProps) => {
+const MoodSelector = ({ onSelectMood, selectedMood,moods }: MoodSelectorProps) => {
   return (
     <View style={styles.container}>
       {moods.map((mood) => (
@@ -31,7 +20,7 @@ const MoodSelector = ({ onSelectMood, selectedMood }: MoodSelectorProps) => {
           onPress={() => onSelectMood(mood.id)}
         >
           <Image source={mood.icon} style={styles.moodIcon} />
-          <Text style={styles.moodLabel}>{mood.label}ddd</Text>
+          <Text style={styles.moodLabel}>{mood.label}</Text>
         </TouchableOpacity>
       ))}
     </View>

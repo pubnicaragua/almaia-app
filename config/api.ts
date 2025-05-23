@@ -7,6 +7,7 @@ export const API_ENDPOINTS = {
   PROFILE: `${API_BASE_URL}/perfil/obtener`,
   VERIFY_TOKEN: `${API_BASE_URL}/auth/verify-token`, // Endpoint para verificar el token (ajusta según tu API)
 TAREAS:`${API_BASE_URL}/colegios/alumnos_tareas`,
+ALUMNOS_RESPUESTAS:`${API_BASE_URL}/preguntas/respuestas_selecccion`,
 ALUMNO:`${API_BASE_URL}/alumnos`,
 ALERTA:`${API_BASE_URL}/alumnos/alertas`,
 MATERIAS:`${API_BASE_URL}/colegios/materias`

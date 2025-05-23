@@ -21,11 +21,13 @@ const DiarySection = () => {
     { day: "22", date: "22", month: "Marzo", isActive: false },
     { day: "21", date: "21", month: "Marzo", isActive: false },
   ]
-
+const handleDiaryClose=()=>{
+   setDiaryModalVisible(true)
+}
   const handleDiaryCardPress = async (day: string, date: string, month: string) => {
     setSelectedDate(`${date} de ${month}`)
     setDiaryModalVisible(true)
-     await fetchAuthApi(API_ENDPOINTS.ALERTA, {
+   /*  await fetchAuthApi(API_ENDPOINTS.ALERTA, {
                   method: "POST",
                   headers: {
                     "Content-Type": "application/json",
@@ -41,13 +43,12 @@ const DiarySection = () => {
                   estado: "pendiente",
                   alertas_tipo_alerta_tipo_id: 2, // reemplaza con valor real
                 }),
-                });
+                });*/
   }
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Diario</Text>
-      
       <ScrollView 
         horizontal
         showsHorizontalScrollIndicator={false}
