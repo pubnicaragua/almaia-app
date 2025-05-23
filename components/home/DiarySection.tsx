@@ -3,6 +3,8 @@ import { useState } from "react"
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from "react-native"
 import DiaryCard from "./DiaryCard"
 import DiaryModal from "../modals/DiaryModal"
+import { API_ENDPOINTS, fetchAuthApi } from "config/api"
+import { useAuth } from "context/AuthContext"
 
 const CARD_WIDTH = 80 
 const CARD_MARGIN = 10 
@@ -10,6 +12,7 @@ const CARD_MARGIN = 10
 const DiarySection = () => {
   const [diaryModalVisible, setDiaryModalVisible] = useState(false)
   const [selectedDate, setSelectedDate] = useState("")
+  const {  user } = useAuth();
 
   const dates = [
     { day: "Hoy", date: "25", month: "Marzo", isActive: true },
@@ -19,9 +22,26 @@ const DiarySection = () => {
     { day: "21", date: "21", month: "Marzo", isActive: false },
   ]
 
-  const handleDiaryCardPress = (day: string, date: string, month: string) => {
+  const handleDiaryCardPress = async (day: string, date: string, month: string) => {
     setSelectedDate(`${date} de ${month}`)
     setDiaryModalVisible(true)
+     await fetchAuthApi(API_ENDPOINTS.ALERTA, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                  alumno_id: user?.alumno_id,
+                  alerta_regla_id: 1, // reemplaza con valor real
+                  fecha_generada: new Date().toISOString(), // ejemplo de fecha actual
+                  alerta_origen_id: 1, // reemplaza con valor real
+                  prioridad_id: 2, // reemplaza con valor real
+                  severidad_id: 2, // reemplaza con valor real
+                  leida: false,
+                  estado: "pendiente",
+                  alertas_tipo_alerta_tipo_id: 2, // reemplaza con valor real
+                }),
+                });
   }
 
   return (

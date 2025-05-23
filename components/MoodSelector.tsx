@@ -1,3 +1,4 @@
+import { useAuth } from "context/AuthContext"
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native"
 
 interface MoodOption {
@@ -18,6 +19,7 @@ const moods: MoodOption[] = [
   { id: 4, label: "Bien", icon: require("../assets/icon.png") },
   { id: 5, label: "Muy bien", icon: require("../assets/icon.png") },
 ]
+  const {  user } = useAuth();
 
 const MoodSelector = ({ onSelectMood, selectedMood }: MoodSelectorProps) => {
   return (
@@ -29,7 +31,7 @@ const MoodSelector = ({ onSelectMood, selectedMood }: MoodSelectorProps) => {
           onPress={() => onSelectMood(mood.id)}
         >
           <Image source={mood.icon} style={styles.moodIcon} />
-          <Text style={styles.moodLabel}>{mood.label}</Text>
+          <Text style={styles.moodLabel}>{mood.label}ddd</Text>
         </TouchableOpacity>
       ))}
     </View>

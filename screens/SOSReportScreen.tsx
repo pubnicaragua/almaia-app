@@ -16,7 +16,7 @@ import { SafeAreaView } from "react-native-safe-area-context"
 import { Ionicons } from "@expo/vector-icons"
 import { SvgXml } from "react-native-svg"
 import { useNavigation } from "@react-navigation/native"
-import { almimascotsvg } from "@/indexsvfg"
+import { almisossvg } from "@/indexsvfg"
 import { fetchAuthApi, API_ENDPOINTS } from "config/api"
 import { useAuth } from "context/AuthContext"
 
@@ -44,7 +44,6 @@ const SOSReportScreen = () => {
               alertas_tipo_alerta_tipo_id: 2, // reemplaza con valor real
             }),
             });
-    console.log("Denuncia enviada:", message)
     navigation.goBack()
   }
 
