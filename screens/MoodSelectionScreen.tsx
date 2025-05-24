@@ -17,48 +17,35 @@ import MoodSelector from "../components/mood-selection/MoodSelector";
 import SupportMessage from "../components/mood-selection/SupportMessage";
 import ContinueButton from "../components/common/ContinueButton";
 import { useAuth } from "context/AuthContext";
-import { API_ENDPOINTS, fetchAuthApi } from "config/api";
 import { MoodOption } from "data/MoodOption";
-import { RespuestaAlumno } from "data/RespuestaAlumno";
-import {
-  fineface,
-  veryfineface,
-  verysadface,
-  sadface,
-  neutralface,
-} from "@/indexsvfg";
-import { AlumnoRespuestaSeleccion } from "data/AlumnoRespuestaSeleccion";
-
-// Tipos para los parámetros de navegación (TypeScript)
-type RouteParams = {
-  alumnoId?: number;
-  preguntaId?: number;
-  respuesta?: AlumnoRespuestaSeleccion; // Asegúrate de importar esta interfaz
-  customData?: any; // Para datos adicionales
-};
+import { mapearPreguntasaEmociones } from "service/MotorPreguntasService";
+import { RouteParamsPreguntas } from "data/RouteParamsPreguntas";
+import { pantallaPregunta } from "data/PantallaPreguntas";
 
 const MoodSelectionScreen = () => {
   const navigation = useNavigation<any>();
   const route = useRoute(); // Obtiene los parámetros
-  const params = route.params as RouteParams; // Tipado en TypeScript
-
+  const params = route.params as RouteParamsPreguntas; // Tipado en TypeScript
   const [selectedMood, setSelectedMood] = useState<number | null>(null);
   const [tieneRespuesta, setTieneRespuesta] = useState<boolean>(false);
   const [moods, setMoods] = useState<MoodOption[] | null>([]);
+  const [indice, setIndice] = useState<number>(0);
   const slideAnim = useRef(new Animated.Value(0)).current;
   const { user } = useAuth();
   const [pregunta, setPregunta] = useState("");
-
-  // ¡Ahora puedes acceder a los parámetros!
-  console.log("Parámetros recibidos:", params);
-
   const handleClose = () => {
     navigation.navigate("MainTabs");
   };
 
   const handleContinue = () => {
     if (selectedMood !== null) {
-      navigation.navigate("EmotionDetail", { selectedMood });
+      const preguntas = params.preguntas;
+      const indice_params = params.indice;
+      const pantalla = pantallaPregunta[preguntas[indice_params+1]?.grupo_preguntas];
+      if (pantalla === "EmotionDetail") {
+        navigation.navigate(pantalla, { selectedMood, preguntas, indice: indice_params + 1 });
+      }
+      navigation.navigate(pantalla, { preguntas, indice: indice_params + 1 });
     }
   };
 
@@ -70,35 +57,15 @@ const MoodSelectionScreen = () => {
 
   async function obtenerPreguntas() {
     try {
-      const preguntas = await fetchAuthApi(
-        API_ENDPOINTS.ALUMNOS_RESPUESTAS + "?alumno_id=" + user?.alumno_id,
-        { method: "GET" }
+      const preguntas = params.preguntas;
+      const indice_params = params.indice;
+      setIndice(indice_params);
+      setPregunta(preguntas[indice_params]?.texto_pregunta);
+      const moods_option: MoodOption[] = mapearPreguntasaEmociones(
+        preguntas,
+        indice_params
       );
-
-      setPregunta(preguntas[0]?.preguntas.texto_pregunta);
-
-      const moods_db: MoodOption[] = preguntas.map((item: RespuestaAlumno) => {
-        const icon =
-          item.respuestas_posibles.respuesta_posible_id === 1
-            ? verysadface
-            : item.respuestas_posibles.respuesta_posible_id === 2
-            ? fineface
-            : item.respuestas_posibles.respuesta_posible_id === 3
-            ? neutralface
-            : item.respuestas_posibles.respuesta_posible_id === 4
-            ? sadface            
-            : item.respuestas_posibles.respuesta_posible_id === 5
-            ? verysadface
-            : veryfineface; 
-
-        return {
-          id: item.respuestas_posibles.respuesta_posible_id,
-          label: item.respuestas_posibles.nombre,
-          icon: icon,
-        };
-      });
-
-      setMoods(moods_db);
+      setMoods(moods_option);
       setTieneRespuesta(true);
     } catch (error) {
       console.error("Error al obtener tareas:", error);

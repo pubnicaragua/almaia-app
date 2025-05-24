@@ -9,6 +9,7 @@ interface Alumno {
 interface Pregunta {
   pregunta_id: number;
   texto_pregunta: string;
+  grupo_preguntas:string;
 }
 interface RespuestaPosible {
   respuesta_posible_id: number;

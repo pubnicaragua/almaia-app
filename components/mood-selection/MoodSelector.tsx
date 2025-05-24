@@ -14,8 +14,6 @@ interface MoodSelectorProps {
 
 
 const MoodSelector = ({ onSelectMood, selectedMood ,moods}: MoodSelectorProps) => {
-  console.log(moods);
-  
   return (
     <View style={styles.container}>
       {moods.map((mood) => (

@@ -1,28 +1,33 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { StyleSheet, View, Text, ScrollView } from "react-native"
-import { useNavigation, useRoute } from "@react-navigation/native"
-import BackButton from "../components/common/BackButton"
-import CloseButton from "../components/common/CloseButton"
-import ProgressBar from "../components/common/ProgressBar"
-import EmotionTypeSelector from "../components/emotion-detail/EmotionTypeSelector"
-import EmotionGrid from "../components/emotion-detail/EmotionGrid"
-import ContinueButton from "../components/common/ContinueButton"
+import { useEffect, useState } from "react";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import BackButton from "../components/common/BackButton";
+import CloseButton from "../components/common/CloseButton";
+import ProgressBar from "../components/common/ProgressBar";
+import EmotionTypeSelector from "../components/emotion-detail/EmotionTypeSelector";
+import EmotionGrid from "../components/emotion-detail/EmotionGrid";
+import ContinueButton from "../components/common/ContinueButton";
+import { RouteParamsPreguntas } from "data/RouteParamsPreguntas";
 
 const EmotionDetailScreen = () => {
-  const navigation = useNavigation<any>()
-  const route = useRoute()
-  const [selectedType, setSelectedType] = useState("positive")
-  const [selectedEmotion, setSelectedEmotion] = useState<string | null>(null)
+  const navigation = useNavigation<any>();
+  const route = useRoute();
+  const [selectedType, setSelectedType] = useState("positive");
+  const [selectedEmotion, setSelectedEmotion] = useState<string | null>(null);
+  const params = route.params as RouteParamsPreguntas; // Tipado en TypeScript
+  const [pregunta, setPregunta] = useState("");
+  const [indice, setIndice] = useState<number>(0);
+  const [tieneRespuesta, setTieneRespuesta] = useState<boolean>(false);
 
   const handleBack = () => {
-    navigation.goBack()
-  }
+    navigation.goBack();
+  };
 
   const handleClose = () => {
-    navigation.navigate("MainTabs")
-  }
+    navigation.navigate("MainTabs");
+  };
 
   const handleContinue = () => {
     if (selectedEmotion) {
@@ -30,9 +35,9 @@ const EmotionDetailScreen = () => {
         selectedMood: route.params?.selectedMood,
         selectedEmotion: selectedEmotion,
         emotionType: selectedType,
-      })
+      });
     }
-  }
+  };
 
   const positiveEmotions = [
     "Feliz",
@@ -45,7 +50,7 @@ const EmotionDetailScreen = () => {
     "Amado",
     "Divertido",
     "En paz",
-  ]
+  ];
 
   const negativeEmotions = [
     "Triste",
@@ -58,9 +63,24 @@ const EmotionDetailScreen = () => {
     "Decepcionado",
     "Abrumado",
     "Inseguro",
-  ]
+  ];
 
-  const emotions = selectedType === "positive" ? positiveEmotions : negativeEmotions
+  const emotions =
+    selectedType === "positive" ? positiveEmotions : negativeEmotions;
+  async function obtenerPreguntas() {
+    try {
+      const preguntas = params.preguntas;
+      const indice_params = params.indice;
+      setIndice(indice_params);
+      setPregunta(preguntas[indice_params]?.texto_pregunta);
+      setTieneRespuesta(true);
+    } catch (error) {}
+  }
+  useEffect(() => {
+    if (!tieneRespuesta) {
+      obtenerPreguntas();
+    }
+  }, []); // Añade dependencias vacías para evitar bucles
 
   return (
     <View style={styles.container}>
@@ -72,19 +92,26 @@ const EmotionDetailScreen = () => {
       <ProgressBar progress={0.25} />
 
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.title}>¿Ahora te sientes?</Text>
+        <Text style={styles.title}>{pregunta}</Text>
 
-        <EmotionTypeSelector selectedType={selectedType} onSelectType={setSelectedType} />
+        <EmotionTypeSelector
+          selectedType={selectedType}
+          onSelectType={setSelectedType}
+        />
 
-        <EmotionGrid emotions={emotions} selectedEmotion={selectedEmotion} onSelectEmotion={setSelectedEmotion} />
+        <EmotionGrid
+          emotions={emotions}
+          selectedEmotion={selectedEmotion}
+          onSelectEmotion={setSelectedEmotion}
+        />
       </ScrollView>
 
       <View style={styles.footer}>
         <ContinueButton onPress={handleContinue} disabled={!selectedEmotion} />
       </View>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -112,6 +139,6 @@ const styles = StyleSheet.create({
   footer: {
     padding: 20,
   },
-})
+});
 
-export default EmotionDetailScreen
+export default EmotionDetailScreen;

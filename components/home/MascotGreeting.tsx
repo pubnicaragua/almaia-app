@@ -1,4 +1,10 @@
-import { StyleSheet,  View,  TouchableOpacity, Animated, Easing } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Animated,
+  Easing,
+} from "react-native";
 import { SvgXml } from "react-native-svg";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useRef } from "react";
@@ -6,6 +12,7 @@ import { backgroundHomesvg, chatfeelsvg, registerButtonsvg } from "@/indexsvfg";
 import { API_ENDPOINTS, fetchAuthApi } from "config/api";
 import { useAuth } from "context/AuthContext";
 import { agruparPorPregunta } from "service/MotorPreguntasService";
+import { pantallaPregunta } from "data/PantallaPreguntas";
 
 const MascotGreeting = () => {
   const navigation = useNavigation<any>();
@@ -13,13 +20,16 @@ const MascotGreeting = () => {
   const { user } = useAuth();
 
   const handleTaskRegistration = async () => {
-    console.log('registro');
-      const preguntas = await fetchAuthApi(
-            API_ENDPOINTS.ALUMNOS_RESPUESTAS + "?alumno_id=" + user?.alumno_id,
-            { method: "GET" }
-          );
-         const preguntasAlumno= agruparPorPregunta(preguntas)
-         navigation.navigate("MoodSelection",preguntasAlumno);
+
+    const preguntas = await fetchAuthApi(
+      API_ENDPOINTS.ALUMNOS_RESPUESTAS + "?alumno_id=" + user?.alumno_id,
+      { method: "GET" }
+    );
+    const preguntasAlumno = agruparPorPregunta(preguntas);
+    navigation.navigate(
+      pantallaPregunta[preguntasAlumno[0]?.grupo_preguntas],
+      { preguntas: preguntasAlumno,indice:0 }
+    );
   };
 
   useEffect(() => {
@@ -62,12 +72,21 @@ const MascotGreeting = () => {
       <View style={styles.container}>
         <View style={styles.contImgButt}>
           <SvgXml xml={chatfeelsvg} style={styles.chatFeelSvg} />
-          <TouchableOpacity onPress={handleTaskRegistration} style={styles.registerButtonSvg}>
-            <SvgXml xml={registerButtonsvg} style={{ width: "100%", height: "100%" }} />
+          <TouchableOpacity
+            onPress={handleTaskRegistration}
+            style={styles.registerButtonSvg}
+          >
+            <SvgXml
+              xml={registerButtonsvg}
+              style={{ width: "100%", height: "100%" }}
+            />
           </TouchableOpacity>
           <Animated.Image
             source={require("../../assets/home/animated-hand.png")}
-            style={[styles.handImage, { transform: [{ rotate: rotateInterpolate }] }]}
+            style={[
+              styles.handImage,
+              { transform: [{ rotate: rotateInterpolate }] },
+            ]}
           />
         </View>
       </View>
@@ -80,7 +99,7 @@ const styles = StyleSheet.create({
     flex: 1,
     zIndex: -100,
     position: "relative",
-    marginBottom:10
+    marginBottom: 10,
   },
   container: {
     alignItems: "center",
@@ -102,20 +121,20 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   chatFeelSvg: {
-    width: "120%", 
-    height: 180,    
+    width: "120%",
+    height: 180,
     marginBottom: 20,
     alignSelf: "center",
     transform: [{ scale: 1.2 }],
   },
   registerButtonSvg: {
-    width: "100%",   
-    height: 95,      
+    width: "100%",
+    height: 95,
     alignSelf: "center",
-    marginLeft: 120, 
+    marginLeft: 120,
     resizeMode: "contain",
     transform: [{ scale: 1.2 }],
-  }
+  },
 });
 
 export default MascotGreeting;
