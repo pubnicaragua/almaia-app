@@ -36,6 +36,9 @@ const ProfileScreen = () => {
   }  
   const handleProfile = () => {
     navigation.navigate("EditProfile")
+  }  
+  const handleChangePassword = () => {
+    navigation.navigate("ChangePassword")
   }
 
   const onRefresh = useCallback(async () => {
@@ -169,8 +172,12 @@ const ProfileScreen = () => {
           <AchievementsSection />
 
           <TouchableOpacity style={styles.logoutButton} onPress={handleProfile}>
-            <Ionicons name="log-out-outline" size={24} color="white" style={styles.logoutIcon} />
+            <Ionicons name="pencil" size={24} color="white" style={styles.logoutIcon} />
             <Text style={styles.logoutText}>Editar Perfil</Text>
+          </TouchableOpacity>           
+          <TouchableOpacity style={styles.logoutButton} onPress={handleChangePassword}>
+            <Ionicons name="key" size={24} color="white" style={styles.logoutIcon} />
+            <Text style={styles.logoutText}>Editar Contraseña</Text>
           </TouchableOpacity> 
           
           <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
