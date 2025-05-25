@@ -10,6 +10,8 @@ import EmotionTypeSelector from "../components/emotion-detail/EmotionTypeSelecto
 import EmotionGrid from "../components/emotion-detail/EmotionGrid";
 import ContinueButton from "../components/common/ContinueButton";
 import { RouteParamsPreguntas } from "data/RouteParamsPreguntas";
+import { siguientePregunta } from "service/MotorPreguntasService";
+import { pantallaPregunta } from "data/PantallaPreguntas";
 
 const EmotionDetailScreen = () => {
   const navigation = useNavigation<any>();
@@ -20,6 +22,7 @@ const EmotionDetailScreen = () => {
   const [pregunta, setPregunta] = useState("");
   const [indice, setIndice] = useState<number>(0);
   const [tieneRespuesta, setTieneRespuesta] = useState<boolean>(false);
+console.log(params);
 
   const handleBack = () => {
     navigation.goBack();
@@ -31,11 +34,10 @@ const EmotionDetailScreen = () => {
 
   const handleContinue = () => {
     if (selectedEmotion) {
-      navigation.navigate("GoodDayFactors", {
-        selectedMood: route.params?.selectedMood,
-        selectedEmotion: selectedEmotion,
-        emotionType: selectedType,
-      });
+      const indice =params.indice+1
+      console.log(indice);
+      
+      siguientePregunta(navigation,pantallaPregunta[params.preguntas[indice]?.template_code],params.preguntas,indice)
     }
   };
 

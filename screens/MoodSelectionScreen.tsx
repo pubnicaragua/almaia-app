@@ -18,7 +18,7 @@ import SupportMessage from "../components/mood-selection/SupportMessage";
 import ContinueButton from "../components/common/ContinueButton";
 import { useAuth } from "context/AuthContext";
 import { MoodOption } from "data/MoodOption";
-import { mapearPreguntasaEmociones } from "service/MotorPreguntasService";
+import { mapearPreguntasaEmociones, siguientePregunta } from "service/MotorPreguntasService";
 import { RouteParamsPreguntas } from "data/RouteParamsPreguntas";
 import { pantallaPregunta } from "data/PantallaPreguntas";
 
@@ -39,13 +39,8 @@ const MoodSelectionScreen = () => {
 
   const handleContinue = () => {
     if (selectedMood !== null) {
-      const preguntas = params.preguntas;
-      const indice_params = params.indice;
-      const pantalla = pantallaPregunta[preguntas[indice_params+1]?.grupo_preguntas];
-      if (pantalla === "EmotionDetail") {
-        navigation.navigate(pantalla, { selectedMood, preguntas, indice: indice_params + 1 });
-      }
-      navigation.navigate(pantalla, { preguntas, indice: indice_params + 1 });
+      const indice =params.indice+1
+     siguientePregunta(navigation,pantallaPregunta[params.preguntas[indice]?.template_code],params.preguntas,indice)
     }
   };
 

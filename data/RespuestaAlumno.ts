@@ -10,10 +10,13 @@ interface Pregunta {
   pregunta_id: number;
   texto_pregunta: string;
   grupo_preguntas:string;
+  template_code:string;
+  respuestas_posibles:RespuestaPosible[]
 }
 interface RespuestaPosible {
   respuesta_posible_id: number;
   nombre: string;
+  icono?:string;
 }
 export interface RespuestaAlumno {
   alumno_respuesta_seleccion_id: number;

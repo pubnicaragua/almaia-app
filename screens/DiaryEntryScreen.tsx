@@ -7,23 +7,36 @@ import BackButton from "../components/common/BackButton"
 import CloseButton from "../components/common/CloseButton"
 import ProgressBar from "../components/common/ProgressBar"
 import ContinueButton from "../components/common/ContinueButton"
+import { fetchAuthApi, API_ENDPOINTS } from "config/api"
+import { useAuth } from "context/AuthContext"
 
 const DiaryEntryScreen = () => {
   const navigation = useNavigation<any>()
   const route = useRoute()
-  const [diaryText, setDiaryText] = useState(
-    "Hoy fue un día muy divertido. En la mañana jugué con mis amigos y nos reímos mucho. En la tarde hice mi tarea y aunque fue un poco difícil, me sentí orgulloso cuando la terminé. También hablé con Almie y me recordó que está bien sentir muchas emociones en un solo día. Me hizo pensar en lo bueno que pasó hoy y me gustó escribirlo aquí. ¡Mañana será otro día para seguir aprendiendo y divirtiéndome!",
-  )
-
+  const [diaryTitle,setDiaryTitle] = useState("titulo")
+  const [diaryText, setDiaryText] = useState("Hoy fue un día muy divertido. En la mañana jugué con mis amigos y nos reímos mucho. En la tarde hice mi tarea y aunque fue un poco difícil, me sentí orgulloso cuando la terminé. También hablé con Almie y me recordó que está bien sentir muchas emociones en un solo día. Me hizo pensar en lo bueno que pasó hoy y me gustó escribirlo aquí. ¡Mañana será otro día para seguir aprendiendo y divirtiéndome!",)
   const handleBack = () => {
     navigation.goBack()
   }
+  const {  user } = useAuth();
 
   const handleClose = () => {
     navigation.navigate("MainTabs")
   }
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
+      await fetchAuthApi(API_ENDPOINTS.DIARIO, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+              alumno_id: user?.alumno_id,
+              titulo: diaryTitle,
+              descripcion: diaryText, // reemplaza con valor real
+              fecha: new Date().toISOString(), // ejemplo de fecha actual
+            }),
+            });
     navigation.navigate("ThankYou", {
       selectedMood: route.params?.selectedMood,
       selectedEmotion: route.params?.selectedEmotion,
@@ -46,6 +59,18 @@ const DiaryEntryScreen = () => {
         <View style={styles.content}>
           <Text style={styles.title}>¿Deseas agregar algo a tu diario?</Text>
 
+          <View style={styles.diaryContainerTitle}>
+            <TextInput
+              style={styles.diaryInputTitle}
+              value={diaryTitle}
+              onChangeText={setDiaryTitle}
+              maxLength={50}
+              textAlignVertical="top"
+            />
+            <View style={styles.diaryFooter}>
+              <Text style={styles.charCount}>{diaryText.length}/50</Text>
+            </View>
+          </View> 
           <View style={styles.diaryContainer}>
             <TextInput
               style={styles.diaryInput}
@@ -102,13 +127,26 @@ const styles = StyleSheet.create({
     padding: 15,
     flex: 1,
     marginBottom: 20,
+  },  
+  diaryContainerTitle: {
+    backgroundColor: "#64B5F6",
+    borderRadius: 15,
+    padding: 15,
+    flex: 0.17,
+    marginBottom: 5,
   },
   diaryInput: {
     flex: 1,
     color: "white",
     fontSize: 16,
     lineHeight: 24,
-  },
+  },  
+diaryInputTitle: {
+  color: "white",
+  fontSize: 14,         // antes 16
+  lineHeight: 18,       // más acorde al tamaño
+  height: 40,           // puedes ajustar según necesites
+},
   diaryFooter: {
     flexDirection: "row",
     justifyContent: "flex-end",
@@ -125,3 +163,5 @@ const styles = StyleSheet.create({
 })
 
 export default DiaryEntryScreen
+
+

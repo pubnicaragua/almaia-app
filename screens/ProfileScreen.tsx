@@ -11,6 +11,7 @@ import AccessibilityModal from "components/modals/AccessibilityModal"
 import { useAuth } from "context/AuthContext"
 import { useProfile } from "context/ProfileContext"
 import { Ionicons } from "@expo/vector-icons"
+import { useNavigation } from "@react-navigation/native"
 
 const ProfileScreen = () => {
   const [sosModalVisible, setSOSModalVisible] = useState(false)
@@ -18,6 +19,7 @@ const ProfileScreen = () => {
   const [refreshing, setRefreshing] = useState(false)
   const { logout } = useAuth()
   const { profileData, isLoading, fetchProfile } = useProfile()
+  const navigation = useNavigation()
 
   const handleRequestHelp = () => {
     console.log("Solicitar ayuda")
@@ -31,6 +33,9 @@ const ProfileScreen = () => {
 
   const handleLogout = () => {
     logout()
+  }  
+  const handleProfile = () => {
+    navigation.navigate("EditProfile")
   }
 
   const onRefresh = useCallback(async () => {
@@ -163,6 +168,11 @@ const ProfileScreen = () => {
 
           <AchievementsSection />
 
+          <TouchableOpacity style={styles.logoutButton} onPress={handleProfile}>
+            <Ionicons name="log-out-outline" size={24} color="white" style={styles.logoutIcon} />
+            <Text style={styles.logoutText}>Editar Perfil</Text>
+          </TouchableOpacity> 
+          
           <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
             <Ionicons name="log-out-outline" size={24} color="white" style={styles.logoutIcon} />
             <Text style={styles.logoutText}>Cerrar Sesión</Text>

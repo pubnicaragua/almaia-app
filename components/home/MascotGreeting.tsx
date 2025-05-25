@@ -11,7 +11,7 @@ import { useEffect, useRef } from "react";
 import { backgroundHomesvg, chatfeelsvg, registerButtonsvg } from "@/indexsvfg";
 import { API_ENDPOINTS, fetchAuthApi } from "config/api";
 import { useAuth } from "context/AuthContext";
-import { agruparPorPregunta } from "service/MotorPreguntasService";
+import { agruparPorPregunta, siguientePregunta } from "service/MotorPreguntasService";
 import { pantallaPregunta } from "data/PantallaPreguntas";
 
 const MascotGreeting = () => {
@@ -25,11 +25,10 @@ const MascotGreeting = () => {
       API_ENDPOINTS.ALUMNOS_RESPUESTAS + "?alumno_id=" + user?.alumno_id,
       { method: "GET" }
     );
+    console.log(preguntas);
+    
     const preguntasAlumno = agruparPorPregunta(preguntas);
-    navigation.navigate(
-      pantallaPregunta[preguntasAlumno[0]?.grupo_preguntas],
-      { preguntas: preguntasAlumno,indice:0 }
-    );
+    siguientePregunta(navigation,pantallaPregunta[preguntasAlumno[0]?.template_code],preguntasAlumno,0)
   };
 
   useEffect(() => {

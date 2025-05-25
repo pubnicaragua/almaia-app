@@ -1,6 +1,6 @@
   export  const pantallaPregunta: Record<string, string> = {
       Emociones: "EmotionDetail",
       EEmocional: "MoodSelection",
-      seleccion: "Pantalla 3",
+      GDFACTOR: "GoodDayFactors",
       texto: "Pantalla 4",
     };

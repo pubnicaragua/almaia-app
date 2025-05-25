@@ -32,6 +32,7 @@ import SOSReportScreen from "./screens/SOSReportScreen"
 
 // Pantallas de tareas
 import TaskRegistrationScreen from "./screens/TaskRegistrationScreen"
+import EditProfileScreen from "screens/EditProfileScreen"
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -97,6 +98,7 @@ const RootNavigator = () => {
             <Stack.Screen name="SOSHelp" component={SOSHelpScreen} />
             <Stack.Screen name="SOSReport" component={SOSReportScreen} />
             <Stack.Screen name="TaskRegistration" component={TaskRegistrationScreen} />
+            <Stack.Screen name="EditProfile" component={EditProfileScreen} />
           </>
         ) : (
           <Stack.Screen name="Auth" component={AuthNavigator} />

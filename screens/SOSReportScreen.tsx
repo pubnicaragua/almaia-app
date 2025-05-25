@@ -34,6 +34,7 @@ const SOSReportScreen = () => {
               },
               body: JSON.stringify({
               alumno_id: user?.alumno_id,
+              descripcion: message,
               alerta_regla_id: 1, // reemplaza con valor real
               fecha_generada: new Date().toISOString(), // ejemplo de fecha actual
               alerta_origen_id: 1, // reemplaza con valor real

@@ -1,33 +1,18 @@
 import { StyleSheet, View, TouchableOpacity, Text } from "react-native"
 import ActivityIcon from "./ActivityIcon"
+import { Activity } from "data/Activity"
 
 interface ActivityGridProps {
   selectedActivities: string[]
+  activities:Activity[]
   onToggleActivity: (activity: string) => void
 }
 
-interface Activity {
-  id: string
-  label: string
-  icon: string
-}
 
-const activities: Activity[] = [
-  { id: "yo", label: "Yo", icon: "person-outline" },
-  { id: "dormir", label: "Dormir", icon: "moon-outline" },
-  { id: "comida", label: "Comida", icon: "fast-food-outline" },
-  { id: "escuela", label: "Escuela", icon: "school-outline" },
-  { id: "familia", label: "Familia", icon: "home-outline" },
-  { id: "amigos", label: "Amigos", icon: "people-outline" },
-  { id: "futbol", label: "Futbol", icon: "football-outline" },
-  { id: "ejercicio", label: "Ejercicio", icon: "barbell-outline" },
-  { id: "voleibol", label: "Voleibol", icon: "basketball-outline" },
-  { id: "musica", label: "Musica", icon: "musical-note-outline" },
-  { id: "videojuegos", label: "Videojuegos", icon: "game-controller-outline" },
-  { id: "peliculas", label: "Películas", icon: "film-outline" },
-]
 
-const ActivityGrid = ({ selectedActivities, onToggleActivity }: ActivityGridProps) => {
+
+
+const ActivityGrid = ({ selectedActivities, onToggleActivity,activities }: ActivityGridProps) => {
   // Dividir las actividades en filas de 3
   const rows = []
   for (let i = 0; i < activities.length; i += 3) {
