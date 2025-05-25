@@ -12,6 +12,7 @@ export const API_ENDPOINTS = {
   ALERTA: `${API_BASE_URL}/alumnos/alertas`,
   MATERIAS: `${API_BASE_URL}/colegios/materias`,
   DIARIO: `${API_BASE_URL}/alumnos/diarios`,
+  USUARIO: `${API_BASE_URL}/auth/usuarios`,
 };
 
 // Función para obtener el token de autenticación
